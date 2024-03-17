@@ -6,6 +6,13 @@ jobs:
   pages-directory-listing:
     runs-on: ubuntu-latest
     name: Directory Listings Index
+    env:
+      CI_COMMIT_MESSAGE: Benchmarks
+      CI_COMMIT_AUTHOR: ${{ github.event.repository.name }} Benchmarks
+      CI_COMMIT_EMAIL: $GITHUB_TRIGGERING_ACTOR@users.noreply.github.com
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -17,13 +24,11 @@ jobs:
         with:
           FOLDER: .      #directory to generate index
 
-      - name: debug
+      - name: Commit directory index
         run: |-
-          find . -name "index.html"
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "${{ env.CI_COMMIT_EMAIL }}"
+          git add .
+          git commit --allow-empty -m "Directory listing indexes"
+          git push origin gh-pages:gh-pages
 
-      - name: Upload docs
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: .
-          clean: false
-          force: true
