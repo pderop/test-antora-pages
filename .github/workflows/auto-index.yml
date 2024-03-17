@@ -14,6 +14,13 @@ jobs:
       contents: write
 
     steps:
+      - name: Get auto-index-script
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - run: cp .github/workflow/auto-index.sh /tmp
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
@@ -21,15 +28,13 @@ jobs:
 
       - name: Auto Index
         run: |-
-          git checkout main -- .github/scripts/auto-index.sh
-          .github/scripts/auto-index.sh .
+          /tmp/auto-index.sh .
           git status
 
       - name: Commit directory index
         run: |-
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "${{ env.CI_COMMIT_EMAIL }}"
-          git status
           git checkout main -- .github/scripts/auto-index.sh
           git add index.html
           git add docs
