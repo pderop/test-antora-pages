@@ -1,6 +1,9 @@
 name: auto-index
 on:
   workflow_dispatch:
+  push:
+    branches: # For branches, better to list them explicitly than regexp include
+      - gh-pages
 
 jobs:
   auto-index:
