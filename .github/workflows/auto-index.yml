@@ -1,4 +1,4 @@
-name: directory listing
+name: auto-index
 on:
   workflow_dispatch:
 
