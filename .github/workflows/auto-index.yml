@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  pages-directory-listing:
+  auto-index:
     runs-on: ubuntu-latest
     name: Directory Listings Index
     env:
@@ -19,16 +19,20 @@ jobs:
         with:
           ref: gh-pages
 
-      - name: Generate Directory Listings
-        uses: jayanta525/github-pages-directory-listing@v4.0.0
-        with:
-          FOLDER: .      #directory to generate index
+      - name: Auto Index
+        run: |-
+          git checkout main -- .github/scripts/auto-index.sh
+          .github/scripts/auto-index.sh .
+          git status
 
       - name: Commit directory index
         run: |-
           git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
           git config --global user.email "${{ env.CI_COMMIT_EMAIL }}"
-          git add .
+          git status
+          git checkout main -- .github/scripts/auto-index.sh
+          git add index.html
+          git add docs
           git commit --allow-empty -m "Directory listing indexes"
           git push origin gh-pages:gh-pages
 
