@@ -17,6 +17,10 @@ jobs:
         with:
           FOLDER: .      #directory to generate index
 
+      - name: debug
+        run: |-
+          find . -name "index.html"
+
       - name: Upload docs
         uses: JamesIves/github-pages-deploy-action@v4
         with:
