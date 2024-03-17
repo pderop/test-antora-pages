@@ -7,7 +7,7 @@ generate_index() {
     echo "<html><head><title>Index of \"${directory}\"</title></head><body>"
     echo "<h1>Index of \"${directory}\":</h1>"
     echo "<ul>"
-    for item in $(ls -dtr "${directory}"/*); do
+    for item in $(ls -dtr "${directory}"/* | sort -V); do
       if [ -d "${item}" ]; then
         local item_name=$(basename "${item}")
         echo "<li><a href=\"${item_name}/\">${item_name}</a></li>"
