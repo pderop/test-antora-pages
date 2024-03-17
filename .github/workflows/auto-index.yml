@@ -19,7 +19,7 @@ jobs:
         with:
           ref: main
 
-      - run: cp .github/workflow/auto-index.sh /tmp
+      - run: cp .github/scripts/auto-index.sh /tmp
 
       - name: Checkout Repository
         uses: actions/checkout@v4
