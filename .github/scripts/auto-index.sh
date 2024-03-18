@@ -23,7 +23,7 @@ generate_html() {
   for item in "${directory}"/*; do
     if [ -d "${item}" ] && [ ! -L "${item}" ]; then
       local item_name=$(basename "${item}")
-      if [ "${item_name}" = "reference" ] || [ "${item_name}" = "javadoc-api" ]; then
+      if [ "${item_name}" = "pdf" ] || [ "${item_name}" = "html" ] || [ "${item_name}" = "javadoc-api" ] || [ "${item_name}" = ".github" ];then
         continue # Stop recursion for "reference" or "javadoc-api" directories
       fi
       generate_html "${item}"
