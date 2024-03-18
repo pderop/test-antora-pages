@@ -7,7 +7,12 @@ generate_index() {
     echo "<html><head><title>Index of \"${directory}\"</title></head><body>"
     echo "<h1>Index of \"${directory}\":</h1>"
     echo "<ul>"
-    for item in $(ls -dtr "${directory}"/* | sort -V); do
+    # Performs a version sort, generally handling version numbers well
+    # -t.: Sets the field delimiter to a period (.) for proper version parsing.
+    # -k1,1n: Sorts numerically on the first field (major version number).
+    # -k2,2n: Sorts numerically on the second field (minor version number).
+    # -k3,3V: Sorts version lexicographically on the third field (patch or suffix).
+    for item in $(ls -d "${directory}"/* | sort -V -t. -k1,1n -k2,2n -k3,3V); do
       if [ -d "${item}" ]; then
         local item_name=$(basename "${item}")
         if [ "$item_name" == "pdf" ]; then
