@@ -1,0 +1,38 @@
+name: auto-index2
+on:
+  workflow_dispatch:
+#  push:
+#    branches: # For branches, better to list them explicitly than regexp include
+#      - gh-pages
+
+jobs:
+  auto-index:
+    runs-on: ubuntu-latest
+    name: Directory Listings Index
+    env:
+      CI_COMMIT_MESSAGE: AutoIndex
+      CI_COMMIT_AUTHOR: ${{ github.event.repository.name }}
+      CI_COMMIT_EMAIL: $GITHUB_TRIGGERING_ACTOR@users.noreply.github.com
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Generate Directory Listings
+        uses: jayanta525/github-pages-directory-listing@v4.0.0
+        with:
+          FOLDER: .      #directory to generate index
+
+      - name: Commit directory index
+        run: |-
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "${{ env.CI_COMMIT_EMAIL }}"
+          git add index.html
+          git add docs
+          git commit --allow-empty -m "Directory listing indexes"
+          git push origin gh-pages:gh-pages
+
