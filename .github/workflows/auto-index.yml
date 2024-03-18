@@ -1,8 +1,10 @@
 name: auto-index
 on:
   workflow_dispatch:
+    
 permissions:
   actions: write
+
 jobs:
   auto-index:
     runs-on: ubuntu-latest
