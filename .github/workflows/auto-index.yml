@@ -12,5 +12,7 @@ jobs:
           ref: gh-pages
 
       - name: Auto Index
-        run:  gh workflow run auto-index.yml -r $(git rev-parse --abbrev-ref HEAD)
+        run: gh workflow run auto-index.yml -r $(git rev-parse --abbrev-ref HEAD)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
