@@ -20,7 +20,7 @@ jobs:
       - name: Get auto-index-script
         uses: actions/checkout@v4
         with:
-          ref: gh-pages
+          ref: main
 
       - run: cp .github/scripts/auto-index.sh /tmp
 
