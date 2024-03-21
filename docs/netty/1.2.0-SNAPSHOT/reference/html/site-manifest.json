@@ -1,6 +1,6 @@
 {
   "$id": "https://schemas.antora.org/site-manifest/1-0-0/draft-01",
-  "generated": "2024-03-21T15:33:39.934Z",
+  "generated": "2024-03-21T15:51:36.165Z",
   "url": "https://pderop.github.io/test-antora-pages/docs/netty/reference",
   "components": {
     "reactor-netty": {
