@@ -1,0 +1,182 @@
+{
+  "$id": "https://schemas.antora.org/site-manifest/1-0-0/draft-01",
+  "generated": "2024-03-20T14:17:46.187Z",
+  "url": "https://pderop.github.io/test-antora-pages/docs/netty/reference",
+  "components": {
+    "reactor-netty": {
+      "title": "Reactor Netty Reference Guide",
+      "latest": "1.1.17",
+      "versions": {
+        "1.2.0": {
+          "prerelease": true,
+          "displayVersion": "1.2.0-SNAPSHOT",
+          "url": "/1.2-SNAPSHOT/index.html",
+          "pages": [
+            {
+              "path": "index.adoc",
+              "url": "/1.2-SNAPSHOT/index.html",
+              "title": "About the Documentation"
+            },
+            {
+              "path": "faq.adoc",
+              "url": "/1.2-SNAPSHOT/faq.html",
+              "title": "Frequently Asked Questions"
+            },
+            {
+              "path": "getting-started.adoc",
+              "url": "/1.2-SNAPSHOT/getting-started.html",
+              "title": "Getting Started"
+            },
+            {
+              "path": "http-client.adoc",
+              "url": "/1.2-SNAPSHOT/http-client.html",
+              "title": "HTTP Client"
+            },
+            {
+              "path": "http-server.adoc",
+              "url": "/1.2-SNAPSHOT/http-server.html",
+              "title": "HTTP Server"
+            },
+            {
+              "path": "observability.adoc",
+              "url": "/1.2-SNAPSHOT/observability.html",
+              "title": "Observability"
+            },
+            {
+              "path": "tcp-client.adoc",
+              "url": "/1.2-SNAPSHOT/tcp-client.html",
+              "title": "TCP Client"
+            },
+            {
+              "path": "tcp-server.adoc",
+              "url": "/1.2-SNAPSHOT/tcp-server.html",
+              "title": "TCP Server"
+            },
+            {
+              "path": "udp-client.adoc",
+              "url": "/1.2-SNAPSHOT/udp-client.html",
+              "title": "UDP Client"
+            },
+            {
+              "path": "udp-server.adoc",
+              "url": "/1.2-SNAPSHOT/udp-server.html",
+              "title": "UDP Server"
+            }
+          ]
+        },
+        "1.1.18": {
+          "prerelease": true,
+          "displayVersion": "1.1.18-SNAPSHOT",
+          "url": "/1.1-SNAPSHOT/index.html",
+          "pages": [
+            {
+              "path": "index.adoc",
+              "url": "/1.1-SNAPSHOT/index.html",
+              "title": "About the Documentation"
+            },
+            {
+              "path": "faq.adoc",
+              "url": "/1.1-SNAPSHOT/faq.html",
+              "title": "Frequently Asked Questions"
+            },
+            {
+              "path": "getting-started.adoc",
+              "url": "/1.1-SNAPSHOT/getting-started.html",
+              "title": "Getting Started"
+            },
+            {
+              "path": "http-client.adoc",
+              "url": "/1.1-SNAPSHOT/http-client.html",
+              "title": "HTTP Client"
+            },
+            {
+              "path": "http-server.adoc",
+              "url": "/1.1-SNAPSHOT/http-server.html",
+              "title": "HTTP Server"
+            },
+            {
+              "path": "observability.adoc",
+              "url": "/1.1-SNAPSHOT/observability.html",
+              "title": "Observability"
+            },
+            {
+              "path": "tcp-client.adoc",
+              "url": "/1.1-SNAPSHOT/tcp-client.html",
+              "title": "TCP Client"
+            },
+            {
+              "path": "tcp-server.adoc",
+              "url": "/1.1-SNAPSHOT/tcp-server.html",
+              "title": "TCP Server"
+            },
+            {
+              "path": "udp-client.adoc",
+              "url": "/1.1-SNAPSHOT/udp-client.html",
+              "title": "UDP Client"
+            },
+            {
+              "path": "udp-server.adoc",
+              "url": "/1.1-SNAPSHOT/udp-server.html",
+              "title": "UDP Server"
+            }
+          ]
+        },
+        "1.1.17": {
+          "url": "/index.html",
+          "pages": [
+            {
+              "path": "index.adoc",
+              "url": "/index.html",
+              "title": "About the Documentation"
+            },
+            {
+              "path": "faq.adoc",
+              "url": "/faq.html",
+              "title": "Frequently Asked Questions"
+            },
+            {
+              "path": "getting-started.adoc",
+              "url": "/getting-started.html",
+              "title": "Getting Started"
+            },
+            {
+              "path": "http-client.adoc",
+              "url": "/http-client.html",
+              "title": "HTTP Client"
+            },
+            {
+              "path": "http-server.adoc",
+              "url": "/http-server.html",
+              "title": "HTTP Server"
+            },
+            {
+              "path": "observability.adoc",
+              "url": "/observability.html",
+              "title": "Observability"
+            },
+            {
+              "path": "tcp-client.adoc",
+              "url": "/tcp-client.html",
+              "title": "TCP Client"
+            },
+            {
+              "path": "tcp-server.adoc",
+              "url": "/tcp-server.html",
+              "title": "TCP Server"
+            },
+            {
+              "path": "udp-client.adoc",
+              "url": "/udp-client.html",
+              "title": "UDP Client"
+            },
+            {
+              "path": "udp-server.adoc",
+              "url": "/udp-server.html",
+              "title": "UDP Server"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

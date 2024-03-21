@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Getting Started :: Reactor Netty Reference Guide</title>
+    <link rel="canonical" href="https://pderop.github.io/test-antora-pages/docs/netty/reference/getting-started.html">
+    <link rel="prev" href="index.html">
+    <link rel="next" href="tcp-server.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.4">
+    <script>
+!function (theme, navWidth) {
+  if (theme === 'dark') document.documentElement.classList.add('dark-theme')
+  if (navWidth) document.documentElement.style.setProperty('--nav-width', `${navWidth}px`)
+}(localStorage && localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)')?.matches && 'dark'),
+  localStorage && localStorage.getItem('nav-width'))
+    </script>
+    <link rel="stylesheet" href="./_/css/site.css">
+    <link rel="stylesheet" href="./_/css/vendor/search.css">
+    <link rel="stylesheet" href="./_/css/vendor/page-search.css">
+    <link rel="stylesheet" href="./_/css/vendor/asciidoctor-tabs.css">
+
+    <meta name="version" content="1.1.17">
+    <meta name="component" content="reactor-netty">
+    <meta name="latest-version" content="true">
+    <link rel="icon" href="./_/img/favicon.ico" type="image/vnd.microsoft.icon">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://spring.io">
+        <img
+          id="reactorlogo"
+          class="block"
+          src="./_/img/reactor-logo.svg"
+          alt="Reactor"
+        />
+        <img
+          id="reactorlogo-dark"
+          class="block"
+          src="./_/img/reactor-logo-dark.svg"
+          alt="Reactor"
+        />
+      </a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <label class="theme-toggler">
+      <input
+        type="checkbox"
+        type="checkbox"
+        id="switch-theme-checkbox"
+        name="switch-theme-checkbox"
+      />
+      <span class="icon"><svg
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="moon"
+          class="svg-inline--fa fa-moon moon"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 384 512"
+        ><path
+            fill="currentColor"
+            d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"
+          ></path>
+        </svg>
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="sun"
+          class="svg-inline--fa fa-sun sun"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+        ><path
+            fill="currentColor"
+            d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"
+          ></path>
+        </svg></span>
+      <span class="text">light</span>
+    </label>
+  </nav>
+</header>
+<script>
+!function (theme) {
+  if (theme === 'dark') {
+    document.getElementById('switch-theme-checkbox').parentElement.classList.add('active')
+  }
+}(localStorage && localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)')?.matches && 'dark'))
+</script>
+<div class="body">
+<div class="nav-container" data-component="reactor-netty" data-version="1.1.17">
+  <aside class="nav">
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+        <nav class="nav-menu">
+<div class="context">
+  <span class="title">Reactor Netty Reference Guide</span>
+  <span class="version">1.1.17</span>
+  <button class="browse-version" id="browse-version">
+    <svg
+      height="24px"
+      id="Layer_1"
+      style="enable-background:new 0 0 512 512;"
+      version="1.1"
+      viewBox="0 0 512 512"
+      width="24px"
+      xml:space="preserve"
+    ><g><path
+          d="M256,224c-17.7,0-32,14.3-32,32s14.3,32,32,32c17.7,0,32-14.3,32-32S273.7,224,256,224L256,224z"
+        ></path><path
+          d="M128.4,224c-17.7,0-32,14.3-32,32s14.3,32,32,32c17.7,0,32-14.3,32-32S146,224,128.4,224L128.4,224z"
+        ></path><path
+          d="M384,224c-17.7,0-32,14.3-32,32s14.3,32,32,32s32-14.3,32-32S401.7,224,384,224L384,224z"
+        ></path></g></svg>
+  </button>
+</div><div class="search">
+  <button class="DocSearch-Button search-button">
+    <svg enable-background="new 0 0 32 32" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <path d="M27.414,24.586l-5.077-5.077C23.386,17.928,24,16.035,24,14c0-5.514-4.486-10-10-10S4,8.486,4,14  s4.486,10,10,10c2.035,0,3.928-0.614,5.509-1.663l5.077,5.077c0.78,0.781,2.048,0.781,2.828,0  C28.195,26.633,28.195,25.367,27.414,24.586z M7,14c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S7,17.86,7,14z" id="XMLID_223_"/>
+    </svg>
+    <span>Search</span>
+    <span class="search-key"></span>
+  </button>
+</div>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">About the Documentation</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="getting-started.html">Getting Started</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="tcp-server.html">TCP Server</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="tcp-client.html">TCP Client</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="http-server.html">HTTP Server</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="http-client.html">HTTP Client</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="udp-server.html">UDP Server</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="udp-client.html">UDP Client</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="observability.html">Observability</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="faq.html">Frequently Asked Questions</a>
+  </li>
+</ul>
+  </li>
+</ul>
+          <div class="toggle-sm">
+            <button id="nav-toggle-2" class="nav-toggle"></button>
+          </div>
+        </nav>
+      </div>
+      <div class="nav-collapse">
+        <button id="nav-collapse-toggle"><span></span></button>        
+      </div>
+    </div>
+    <div class="nav-resize"></div>
+  </aside>
+</div>
+<script>
+!function (sidebar) {
+  if (sidebar) {
+    document.body.classList.add('nav-sm')
+  }
+}(localStorage && localStorage.getItem('sidebar') === 'close')
+</script><main class="article">
+<div class="toolbar" role="navigation">
+  <button id="nav-toggle-1" class="nav-toggle"></button>
+<div class="search">
+  <button class="DocSearch-Button search-button">
+    <svg enable-background="new 0 0 32 32" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <path d="M27.414,24.586l-5.077-5.077C23.386,17.928,24,16.035,24,14c0-5.514-4.486-10-10-10S4,8.486,4,14  s4.486,10,10,10c2.035,0,3.928-0.614,5.509-1.663l5.077,5.077c0.78,0.781,2.048,0.781,2.828,0  C28.195,26.633,28.195,25.367,27.414,24.586z M7,14c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S7,17.86,7,14z" id="XMLID_223_"/>
+    </svg>
+    <span>Search</span>
+    <span class="search-key"></span>
+  </button>
+</div>
+</div>
+  <div class="content">
+<aside class="sidebar">
+  <div class="content">
+    <div
+      class="toc"
+      data-title="Getting Started"
+      data-levels="2"
+    >
+      <div class="toc-menu"></div>
+    </div>
+    <div class="sidebar-links">
+        <a href="https://github.com/pderop/test.reactor-netty/blob/v1.1.17/docs/modules/ROOT/pages/getting-started.adoc">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          ><path
+              d="m16 2.012 3 3L16.713 7.3l-3-3zM4 14v3h3l8.299-8.287-3-3zm0 6h16v2H4z"
+            ></path></svg>
+          Edit this Page
+        </a>
+              <a href="https://github.com/pderop/test.reactor-netty" title="Github">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="512px"
+            id="Layer_1"
+            version="1.1"
+            viewBox="0 0 512 512"
+            width="512px"
+          ><style type="text/css"><![CDATA[
+              .st0{fill-rule:evenodd;clip-rule:evenodd;} ]]></style><g><path
+                class="st0"
+                d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"
+              ></path></g></svg>
+          GitHub Project
+        </a>
+        <a href="https://stackoverflow.com/tags/reactor-netty">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path
+              d="M290.7 311L95 269.7 86.8 309l195.7 41zm51-87L188.2 95.7l-25.5 30.8 153.5 128.3zm-31.2 39.7L129.2 179l-16.7 36.5L293.7 300zM262 32l-32 24 119.3 160.3 32-24zm20.5 328h-200v39.7h200zm39.7 80H42.7V320h-40v160h359.5V320h-40z"
+            ></path></svg>
+          Stack Overflow
+        </a>
+    </div>
+  </div>
+</aside><article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Reactor Netty Reference Guide</a></li>
+    <li><a href="getting-started.html">Getting Started</a></li>
+  </ul>
+</nav>
+<h1 id="page-title" class="page">Getting Started</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#getting-started-introducing-reactor-netty">Introducing Reactor Netty</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#getting-started-understanding-bom">Understanding the BOM and versioning scheme</a></li>
+<li><a href="#getting">Getting Reactor Netty</a>
+<ul class="sectlevel2">
+<li><a href="#maven-installation">Maven Installation</a></li>
+<li><a href="#gradle-installation">Gradle Installation</a></li>
+<li><a href="#milestones-and-snapshots">Milestones and Snapshots</a></li>
+</ul>
+</li>
+<li><a href="#support">Support and policies</a>
+<ul class="sectlevel2">
+<li><a href="#_do_you_have_a_question">Do you have a question?</a></li>
+<li><a href="#_our_policy_on_deprecations">Our policy on <strong>deprecations</strong></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section contains information that should help you get going with <code>Reactor Netty</code>. It
+includes the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#getting-started-introducing-reactor-netty">Introducing Reactor Netty</a></p>
+</li>
+<li>
+<p><a href="#prerequisites">Prerequisites</a></p>
+</li>
+<li>
+<p><a href="#getting-started-understanding-bom">Understanding the BOM and versioning scheme</a></p>
+</li>
+<li>
+<p><a href="#getting">Getting Reactor Netty</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getting-started-introducing-reactor-netty"><a class="anchor" href="#getting-started-introducing-reactor-netty"></a>Introducing Reactor Netty</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Suited for Microservices Architecture, <code>Reactor Netty</code> offers
+backpressure-ready network engines for <code>HTTP</code> (including Websockets), <code>TCP</code>, and <code>UDP</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="prerequisites"><a class="anchor" href="#prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Reactor Netty</code> runs on <code>Java 8</code> and above.</p>
+</div>
+<div class="paragraph">
+<p>It has transitive dependencies on:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Reactive Streams v1.0.4</p>
+</li>
+<li>
+<p>Reactor Core v3.x</p>
+</li>
+<li>
+<p>Netty v4.1.x</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getting-started-understanding-bom"><a class="anchor" href="#getting-started-understanding-bom"></a>Understanding the BOM and versioning scheme</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Reactor Netty</code> is part of the <code>Project Reactor BOM</code> (since the <code>Aluminium</code> release train).
+This curated list groups artifacts that are meant to work well together, providing
+the relevant versions despite potentially divergent versioning schemes in these artifacts.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The versioning scheme has changed between 0.9.x and 1.0.x (Dysprosium and Europium).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Artifacts follow a versioning scheme of <code>MAJOR.MINOR.PATCH-QUALIFIER</code> while the BOM is versioned using a CalVer inspired scheme of <code>YYYY.MINOR.PATCH-QUALIFIER</code>, where:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MAJOR</code> is the current generation of Reactor, where each new generation can bring fundamental changes to the structure of the project (which might imply a more significant migration effort)</p>
+</li>
+<li>
+<p><code>YYYY</code> is the year of the first GA release in a given release cycle (like 1.0.0 for 1.0.x)</p>
+</li>
+<li>
+<p><code>.MINOR</code> is a 0-based number incrementing with each new release cycle</p>
+<div class="ulist">
+<ul>
+<li>
+<p>in the case of projects, it generally reflects wider changes and can indicate a moderate migration effort</p>
+</li>
+<li>
+<p>in the case of the BOM it allows discerning between release cycles in case two get first released the same year</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>.PATCH</code> is a 0-based number incrementing with each service release</p>
+</li>
+<li>
+<p><code>-QUALIFIER</code> is a textual qualifier, which is omitted in the case of GA releases (see below)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The first release cycle to follow that convention is thus <code>2020.0.x</code>, codename <code>Europium</code>.
+The scheme uses the following qualifiers (note the use of dash separator), in order:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>-M1</code>..<code>-M9</code>: milestones (we don&#8217;t expect more than 9 per service release)</p>
+</li>
+<li>
+<p><code>-RC1</code>..<code>-RC9</code>: release candidates (we don&#8217;t expect more than 9 per service release)</p>
+</li>
+<li>
+<p><code>-SNAPSHOT</code>: snapshots</p>
+</li>
+<li>
+<p><em>no qualifier</em> for GA releases</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Snapshots appear higher in the order above because, conceptually, they&#8217;re always "the freshest pre-release" of any given PATCH.
+Even though the first deployed artifact of a PATCH cycle will always be a -SNAPSHOT, a similarly named but more up-to-date snapshot
+would also get released after eg. a milestone or between release candidates.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Each release cycle is also given a codename, in continuity with the previous codename-based
+scheme, which can be used to reference it more informally (like in discussions, blog posts, etc&#8230;&#8203;).
+The codenames represent what would traditionally be the MAJOR.MINOR number. They (mostly)
+come from the <a href="https://en.wikipedia.org/wiki/Periodic_table#Overview">Periodic Table of
+Elements</a>, in increasing alphabetical order.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Up until Dysprosium, the BOM was versioned using a release train scheme with a codename followed by a qualifier, and the qualifiers were slightly different.
+For example: Aluminium-RELEASE (first GA release, would now be something like YYYY.0.0), Bismuth-M1, Californium-SR1 (service release
+would now be something like YYYY.0.1), Dysprosium-RC1, Dysprosium-BUILD-SNAPSHOT (after each patch, we&#8217;d go back to the same snapshot version. would now be something
+like YYYY.0.X-SNAPSHOT so we get 1 snapshot per PATCH)
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getting"><a class="anchor" href="#getting"></a>Getting Reactor Netty</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As <a href="#getting-started-understanding-bom">mentioned earlier</a>, the easiest way to use
+<code>Reactor Netty</code> in your core is to use the <code>BOM</code> and
+add the relevant dependencies to your project. Note that, when adding such a dependency,
+you must omit the version so that the version gets picked up from the <code>BOM</code>.</p>
+</div>
+<div class="paragraph">
+<p>However, if you want to force the use of a specific artifact&#8217;s version, you can specify
+it when adding your dependency as you usually would. You can also forego the <code>BOM</code> entirely
+and specify dependencies by their artifact versions.</p>
+</div>
+<div class="sect2">
+<h3 id="maven-installation"><a class="anchor" href="#maven-installation"></a>Maven Installation</h3>
+<div class="paragraph">
+<p>The <code>BOM</code> concept is natively supported by <code>Maven</code>. First, you need to import the <code>BOM</code> by
+adding the following snippet to your <code>pom.xml</code>. If the top section
+(<code>dependencyManagement</code>) already exists in your pom, add only the contents.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependencyManagement&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;io.projectreactor&lt;/groupId&gt;
+            &lt;artifactId&gt;reactor-bom&lt;/artifactId&gt;
+            &lt;version&gt;2022.0.15&lt;/version&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+            &lt;type&gt;pom&lt;/type&gt;
+            &lt;scope&gt;import&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Notice the <code>dependencyManagement</code> tag. This is in addition to the regular
+<code>dependencies</code> section.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>As of this writing, <code>2022.0.15</code> is the latest version of the <code>BOM</code>.
+Check for updates at <a href="https://github.com/reactor/reactor/releases" class="bare">github.com/reactor/reactor/releases</a>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Next, add your dependencies to the relevant reactor projects, as usual (except without a
+<code>&lt;version&gt;</code>). The following listing shows how to do so:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.projectreactor.netty&lt;/groupId&gt;
+        &lt;artifactId&gt;reactor-netty-core&lt;/artifactId&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+        <i class="conum" data-value="2"></i><b>(2)</b>
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.projectreactor.netty&lt;/groupId&gt;
+        &lt;artifactId&gt;reactor-netty-http&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Dependency on <code>Reactor Netty</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>No version tag here</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="gradle-installation"><a class="anchor" href="#gradle-installation"></a>Gradle Installation</h3>
+<div class="paragraph">
+<p>The <code>BOM</code> concept is supported in Gradle since version 5.
+The following listing shows how to import the <code>BOM</code> and add a dependency to <code>Reactor Netty</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">dependencies {
+    // import a BOM
+    implementation platform('io.projectreactor:reactor-bom:2022.0.15') <i class="conum" data-value="1"></i><b>(1)</b>
+
+    // define dependencies without versions
+    implementation 'io.projectreactor.netty:reactor-netty-core' <i class="conum" data-value="2"></i><b>(2)</b>
+    implementation 'io.projectreactor.netty:reactor-netty-http'
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>As of this writing, <code>2022.0.15</code> is the latest version of the <code>BOM</code>.
+Check for updates at <a href="https://github.com/reactor/reactor/releases" class="bare">github.com/reactor/reactor/releases</a>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>There is no third <code>:</code> separated section for the version. It is taken from the <code>BOM</code>.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="milestones-and-snapshots"><a class="anchor" href="#milestones-and-snapshots"></a>Milestones and Snapshots</h3>
+<div class="paragraph">
+<p>Milestones and developer previews are distributed through the <code>Spring Milestones</code>
+repository rather than <code>Maven Central</code>. To add it to your build configuration
+file, use the following snippet:</p>
+</div>
+<div class="listingblock">
+<div class="title">Milestones in Maven</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;repositories&gt;
+	&lt;repository&gt;
+		&lt;id&gt;spring-milestones&lt;/id&gt;
+		&lt;name&gt;Spring Milestones Repository&lt;/name&gt;
+		&lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
+	&lt;/repository&gt;
+&lt;/repositories&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For Gradle, use the following snippet:</p>
+</div>
+<div class="listingblock">
+<div class="title">Milestones in Gradle</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">repositories {
+  maven { url 'https://repo.spring.io/milestone' }
+  mavenCentral()
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly, snapshots are also available in a separate dedicated repository
+(for both Maven and Gradle):</p>
+</div>
+<div class="listingblock">
+<div class="title">-SNAPSHOTs in Maven</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;repositories&gt;
+	&lt;repository&gt;
+		&lt;id&gt;spring-snapshots&lt;/id&gt;
+		&lt;name&gt;Spring Snapshot Repository&lt;/name&gt;
+		&lt;url&gt;https://repo.spring.io/snapshot&lt;/url&gt;
+	&lt;/repository&gt;
+&lt;/repositories&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">-SNAPSHOTs in Gradle</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">repositories {
+  maven { url 'https://repo.spring.io/snapshot' }
+  mavenCentral()
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="support"><a class="anchor" href="#support"></a>Support and policies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The entries below are mirroring <a href="https://github.com/reactor/.github/blob/main/SUPPORT.adoc" class="bare">github.com/reactor/.github/blob/main/SUPPORT.adoc</a></p>
+</div>
+<div class="sect2">
+<h3 id="_do_you_have_a_question"><a class="anchor" href="#_do_you_have_a_question"></a>Do you have a question?</h3>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Search Stack Overflow first; discuss if necessary
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If you&#8217;re unsure why something isn&#8217;t working or wondering if there is a better
+way of doing it please check on <strong>Stack Overflow</strong> first and if necessary start
+a discussion. Use relevant tags among the ones we monitor for that purpose:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/tagged/reactor-netty"><code>reactor-netty</code></a> for specific reactor-netty questions</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/tagged/project-reactor"><code>project-reactor</code></a> for generic reactor questions</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you prefer real-time discussion, we also have a few <strong>Gitter channels</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://gitter.im/reactor/reactor"><code>reactor</code></a> is the historic most active one, where most of the community can help</p>
+</li>
+<li>
+<p><a href="https://gitter.im/reactor/reactor-core"><code>reactor-core</code></a> is intended for more advanced pinpointed discussions around the inner workings of the library</p>
+</li>
+<li>
+<p><a href="https://gitter.im/reactor/reactor-netty"><code>reactor-netty</code></a> is intended for netty-specific questions</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Refer to each project&#8217;s README for potential other sources of information.</p>
+</div>
+<div class="paragraph">
+<p>We generally discourage opening GitHub issues for questions, in favor of the two channels above.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_our_policy_on_deprecations"><a class="anchor" href="#_our_policy_on_deprecations"></a>Our policy on <strong>deprecations</strong></h3>
+<div class="paragraph">
+<p>When dealing with deprecations, given a version <code>A.B.C</code>, we&#8217;ll ensure that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>deprecations introduced in version <code>A</code>.<code>B</code>.<code>0</code> will be removed <strong>no sooner than</strong> version <code>A</code>.<strong><code>B+1</code></strong>.<code>0</code></p>
+</li>
+<li>
+<p>deprecations introduced in version <code>A</code>.<code>B</code>.<code>1+</code> will be removed <strong>no sooner than</strong> version <code>A</code>.<strong><code>B+2</code></strong>.<code>0</code></p>
+</li>
+<li>
+<p>we&#8217;ll strive to mention the following in the deprecation javadoc:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>target minimum version for removal</p>
+</li>
+<li>
+<p>pointers to replacements for the deprecated method</p>
+</li>
+<li>
+<p>version in which method was deprecated</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="index.html">About the Documentation</a></span>
+  <span class="next"><a href="tcp-server.html">TCP Server</a></span>
+</nav>
+</article>
+  </div>
+</main>
+<div class="modal micromodal-slide" id="modal-versions" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true">
+            <main class="modal__content" id="modal-versions-content">
+              <button data-micromodal-close class="modal-versions-close">
+                <svg width="28px" height="28px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><style>.cls-1h{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}</style></defs><title/><g id="cross"><line class="cls-1h" x1="7" x2="25" y1="7" y2="25"/><line class="cls-1h" x1="7" x2="25" y1="25" y2="7"/></g></svg>
+              </button>
+              <div class="colset">
+                <div class="col-left">
+                  <ul class="nav-versions">
+                    <li class="component is-current">
+                      <a class="title" href="index.html">Reactor Netty Reference Guide</a>
+                      <ul class="versions">
+                        <li class="version">
+                          <a href="1.2-SNAPSHOT/index.html">
+                            1.2.0-SNAPSHOT
+                          </a>
+                        </li>
+                        <li class="version">
+                          <a href="1.1-SNAPSHOT/index.html">
+                            1.1.18-SNAPSHOT
+                          </a>
+                        </li>
+                        <li class="version is-current is-latest">
+                          <a href="index.html">
+                            1.1.17<span class="current">current</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-right">
+                  <ul class="projects">
+  <li>
+    Related Spring Documentation
+    <ul class="projects-list">
+        <li>
+<a href="https://docs.spring.io/spring-framework/reference/">
+  Spring Framework
+</a>
+</li>
+        <li>
+<a class="anchor"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+  Spring Cloud
+<ul>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-build/reference/">
+  Spring Cloud Build
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-bus/reference/">
+  Spring Cloud Bus
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-circuitbreaker/reference/">
+  Spring Cloud Circuit Breaker
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-commons/reference/">
+  Spring Cloud Commons
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-config/reference/">
+  Spring Cloud Config
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-consul/reference/">
+  Spring Cloud Consul
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-contract/reference/">
+  Spring Cloud Contract
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-function/reference/">
+  Spring Cloud Function
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-gateway/reference/">
+  Spring Cloud Gateway
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-kubernetes/reference/">
+  Spring Cloud Kubernetes
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-netflix/reference/">
+  Spring Cloud Netflix
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-openfeign/reference/">
+  Spring Cloud OpenFeign
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-stream/reference/">
+  Spring Cloud Stream
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-task/reference/">
+  Spring Cloud Task
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-vault/reference/">
+  Spring Cloud Vault
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-zookeeper/reference/">
+  Spring Cloud Zookeeper
+</a>
+</li>
+</ul>
+</li>
+        <li>
+<a class="anchor"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+  Spring Data
+<ul>
+    <li>
+<a href="https://docs.spring.io/spring-data/cassandra/reference/">
+  Spring Data Cassandra
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/commons/reference/">
+  Spring Data Commons
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/couchbase/reference/">
+  Spring Data Couchbase
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/elasticsearch/reference/">
+  Spring Data Elasticsearch
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/jpa/reference/">
+  Spring Data JPA
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/keyvalue/reference/">
+  Spring Data KeyValue
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/ldap/reference/">
+  Spring Data LDAP
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/mongodb/reference/">
+  Spring Data MongoDB
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/neo4j/reference/">
+  Spring Data Neo4j
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/redis/reference/">
+  Spring Data Redis
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/relational/reference/">
+  Spring Data JDBC &amp; R2DBC
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/rest/reference/">
+  Spring Data REST
+</a>
+</li>
+</ul>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-integration/reference/">
+  Spring Integration
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-batch/reference/">
+  Spring Batch
+</a>
+</li>
+        <li>
+<a class="anchor"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+<a href="https://docs.spring.io/spring-security/reference/">
+  Spring Security
+</a>
+<ul>
+    <li>
+<a href="https://docs.spring.io/spring-authorization-server/reference/">
+  Spring Authorization Server
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-ldap/reference/">
+  Spring LDAP
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-security-kerberos/reference/">
+  Spring Security Kerberos
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-session/reference/">
+  Spring Session
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-vault/reference/">
+  Spring Vault
+</a>
+</li>
+</ul>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-ai/reference/">
+  Spring AI
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-amqp/reference/">
+  Spring AMQP
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-cli/reference/">
+  Spring CLI
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-graphql/reference/">
+  Spring GraphQL
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-kafka/reference/">
+  Spring for Apache Kafka
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-modulith/reference/">
+  Spring Modulith
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-pulsar/reference/">
+  Spring for Apache Pulsar
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-shell/reference/">
+  Spring Shell
+</a>
+</li>
+    </ul>
+  </li
+  <li><a href="spring-projects.html">All Docs...</a></li>
+</ul>
+                </div>
+              </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+</div>
+<footer class="footer flex">
+    <div id="spring-links flex">
+        <img id="reactorlogo-footer" src="./_/img/reactor-logo.svg" alt="Reactor">
+        <img id="reactorlogo-footer-dark" src="./_/img/reactor-logo-dark.svg" alt="Reactor">
+        <p class="smallest antialiased">Copyright © 2005 - <script>var d = new Date();
+        document.write(d.getFullYear());</script> Broadcom. All Rights Reserved. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.<br /><a href="https://www.vmware.com/help/legal.html">Terms of Use</a> • <a href="https://www.vmware.com/help/privacy.html" rel="noopener noreferrer">Privacy</a> • <a href="https://spring.io/trademarks">Trademark Guidelines</a> <span id="thank-you-mobile">• <a href="https://spring.io/thank-you">Thank you</a></span> • <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> • <a class="ot-sdk-show-settings">Cookie Settings</a> <span id="teconsent"></span></p>
+        <p class="smallest antialiased has-gray-text">Apache®, Apache Tomcat®, Apache Kafka®, Apache Cassandra&trade;, and Apache Geode&trade; are trademarks or registered trademarks of the Apache Software Foundation in the United States and/or other countries. Java&trade;, Java&trade; SE, Java&trade; EE, and OpenJDK&trade; are trademarks of Oracle and/or its affiliates. Kubernetes® is a registered trademark of the Linux Foundation in the United States and other countries. Linux® is the registered trademark of Linus Torvalds in the United States and other countries. Windows® and Microsoft® Azure are registered trademarks of Microsoft Corporation. “AWS” and “Amazon Web Services” are trademarks or registered trademarks of Amazon.com Inc. or its affiliates. All other trademarks and copyrights are property of their respective owners and are only mentioned for informative purposes. Other names may be trademarks of their respective owners.</p>
+    </div>
+    <div id="social-icons" class="flex jc-between">
+        <a href="https://www.youtube.com/user/SpringSourceDev" title="Youtube"><svg id="youtube-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle class="cls-1" cx="20" cy="20" r="20"/><path class="cls-2" d="M30.91,14.53a2.89,2.89,0,0,0-2-2C27.12,12,20,12,20,12s-7.12,0-8.9.47a2.9,2.9,0,0,0-2,2A30.56,30.56,0,0,0,8.63,20a30.44,30.44,0,0,0,.46,5.47,2.89,2.89,0,0,0,2,2C12.9,28,20,28,20,28s7.12,0,8.9-.47a2.87,2.87,0,0,0,2-2A30.56,30.56,0,0,0,31.37,20,28.88,28.88,0,0,0,30.91,14.53ZM17.73,23.41V16.59L23.65,20Z"/></svg></a>
+        <a href="https://github.com/spring-projects" title="Github"><svg id="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.93 75.93"><path class="cls-1" d="M38,0a38,38,0,1,0,38,38A38,38,0,0,0,38,0Z"/></g><path class="cls-2" d="M38,15.59A22.95,22.95,0,0,0,30.71,60.3c1.15.21,1.57-.5,1.57-1.11s0-2,0-3.9c-6.38,1.39-7.73-3.07-7.73-3.07A6.09,6.09,0,0,0,22,48.86c-2.09-1.42.15-1.39.15-1.39a4.81,4.81,0,0,1,3.52,2.36c2,3.5,5.37,2.49,6.67,1.91a4.87,4.87,0,0,1,1.46-3.07c-5.09-.58-10.45-2.55-10.45-11.34a8.84,8.84,0,0,1,2.36-6.15,8.29,8.29,0,0,1,.23-6.07s1.92-.62,6.3,2.35a21.82,21.82,0,0,1,11.49,0c4.38-3,6.3-2.35,6.3-2.35a8.29,8.29,0,0,1,.23,6.07,8.84,8.84,0,0,1,2.36,6.15c0,8.81-5.37,10.75-10.48,11.32a5.46,5.46,0,0,1,1.56,4.25c0,3.07,0,5.54,0,6.29s.42,1.33,1.58,1.1A22.94,22.94,0,0,0,38,15.59Z"/></svg></a>
+        <a href="https://twitter.com/springcentral" title="Twitter"><svg id="twitter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.93 75.93"><circle class="cls-1" cx="37.97" cy="37.97" r="37.97"/><path id="Twitter-2" data-name="Twitter" class="cls-2" d="M55.2,22.73a15.43,15.43,0,0,1-4.88,1.91,7.56,7.56,0,0,0-5.61-2.49A7.78,7.78,0,0,0,37,30a7.56,7.56,0,0,0,.2,1.79,21.63,21.63,0,0,1-15.84-8.23,8,8,0,0,0,2.37,10.52,7.66,7.66,0,0,1-3.48-1v.09A7.84,7.84,0,0,0,26.45,41a7.54,7.54,0,0,1-2,.28A7.64,7.64,0,0,1,23,41.09a7.71,7.71,0,0,0,7.18,5.47,15.21,15.21,0,0,1-9.55,3.37,15.78,15.78,0,0,1-1.83-.11,21.41,21.41,0,0,0,11.78,3.54c14.13,0,21.86-12,21.86-22.42,0-.34,0-.68,0-1a15.67,15.67,0,0,0,3.83-4.08,14.9,14.9,0,0,1-4.41,1.24A7.8,7.8,0,0,0,55.2,22.73Z"/></svg></a>
+    </div>
+</footer>
+<script src="./_/js/vendor/import.js"></script>
+<script src="./_/js/site.js"></script>
+<script async src="./_/js/vendor/highlight.js"></script>
+<script async src="./_/js/vendor/asciidoctor-tabs.js" data-sync-storage-key="docs:preferred-tab"></script>
+
+<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <main class="modal__content" id="modal-1-content">
+                <div id="searchbox"></div>
+                <div id="counter"></div>
+                <div class="search-link-box">
+                    <a class="search-link" href="search.html">Search in all Spring Docs</a>
+                </div>
+                <div class="search-by">
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.algolia.com/" aria-label="Search by Algolia">
+                        <img class="light" width="140" src="./_/img/algolia-light.svg" />
+                        <img class="dark" width="140" src="./_/img/algolia-dark.svg" />
+                    </a>
+                </div>
+                <div id="hits"></div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.17.0/dist/algoliasearch-lite.umd.js" integrity="sha256-Lf9DrpGmcRip6OQzbcL6lnvNmoZNSKpyQX5pMlwatWE=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.54.1/dist/instantsearch.production.min.js" integrity="sha256-xYsZPDeNjYNTBWLvqD2Lxe98hOxcDgOHyMPfz4tVAbk=" crossorigin="anonymous"></script>
+<script async id="search-script" src="./_/js/vendor/search.js" data-app-id="TGS4XRGX3V" data-api-key="da671ceec1f84f80f280884a6a91bde5" data-index-name="reactor" data-stylesheet="./_/css/vendor/search.css" data-page-version="1.1.17" data-page-component="reactor-netty"></script>
+  </body>
+</html>

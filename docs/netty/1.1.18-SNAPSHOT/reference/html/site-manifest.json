@@ -1,0 +1,70 @@
+{
+  "$id": "https://schemas.antora.org/site-manifest/1-0-0/draft-01",
+  "generated": "2024-03-20T13:44:52.882Z",
+  "url": "https://pderop.github.io/test-antora-pages/docs/netty/reference",
+  "components": {
+    "reactor-netty": {
+      "title": "Reactor Netty Reference Guide",
+      "latest": "1.1.18",
+      "versions": {
+        "1.1.18": {
+          "prerelease": true,
+          "displayVersion": "1.1.18-SNAPSHOT",
+          "url": "/index.html",
+          "pages": [
+            {
+              "path": "index.adoc",
+              "url": "/index.html",
+              "title": "About the Documentation"
+            },
+            {
+              "path": "faq.adoc",
+              "url": "/faq.html",
+              "title": "Frequently Asked Questions"
+            },
+            {
+              "path": "getting-started.adoc",
+              "url": "/getting-started.html",
+              "title": "Getting Started"
+            },
+            {
+              "path": "http-client.adoc",
+              "url": "/http-client.html",
+              "title": "HTTP Client"
+            },
+            {
+              "path": "http-server.adoc",
+              "url": "/http-server.html",
+              "title": "HTTP Server"
+            },
+            {
+              "path": "observability.adoc",
+              "url": "/observability.html",
+              "title": "Observability"
+            },
+            {
+              "path": "tcp-client.adoc",
+              "url": "/tcp-client.html",
+              "title": "TCP Client"
+            },
+            {
+              "path": "tcp-server.adoc",
+              "url": "/tcp-server.html",
+              "title": "TCP Server"
+            },
+            {
+              "path": "udp-client.adoc",
+              "url": "/udp-client.html",
+              "title": "UDP Client"
+            },
+            {
+              "path": "udp-server.adoc",
+              "url": "/udp-server.html",
+              "title": "UDP Server"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

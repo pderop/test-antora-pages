@@ -1,0 +1,3655 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HTTP Client :: Reactor Netty Reference Guide</title>
+    <link rel="prev" href="http-server.html">
+    <link rel="next" href="udp-server.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.4">
+    <script>
+!function (theme, navWidth) {
+  if (theme === 'dark') document.documentElement.classList.add('dark-theme')
+  if (navWidth) document.documentElement.style.setProperty('--nav-width', `${navWidth}px`)
+}(localStorage && localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)')?.matches && 'dark'),
+  localStorage && localStorage.getItem('nav-width'))
+    </script>
+    <link rel="stylesheet" href="./_/css/site.css">
+    <link rel="stylesheet" href="./_/css/vendor/search.css">
+    <link rel="stylesheet" href="./_/css/vendor/page-search.css">
+    <link rel="stylesheet" href="./_/css/vendor/asciidoctor-tabs.css">
+
+    <meta name="version" content="1.2.0">
+    <meta name="component" content="reactor-netty">
+    <meta name="latest-version" content="false">
+    <link rel="icon" href="./_/img/favicon.ico" type="image/vnd.microsoft.icon">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://spring.io">
+        <img
+          id="reactorlogo"
+          class="block"
+          src="./_/img/reactor-logo.svg"
+          alt="Reactor"
+        />
+        <img
+          id="reactorlogo-dark"
+          class="block"
+          src="./_/img/reactor-logo-dark.svg"
+          alt="Reactor"
+        />
+      </a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <label class="theme-toggler">
+      <input
+        type="checkbox"
+        type="checkbox"
+        id="switch-theme-checkbox"
+        name="switch-theme-checkbox"
+      />
+      <span class="icon"><svg
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="moon"
+          class="svg-inline--fa fa-moon moon"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 384 512"
+        ><path
+            fill="currentColor"
+            d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"
+          ></path>
+        </svg>
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="sun"
+          class="svg-inline--fa fa-sun sun"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+        ><path
+            fill="currentColor"
+            d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"
+          ></path>
+        </svg></span>
+      <span class="text">light</span>
+    </label>
+  </nav>
+</header>
+<script>
+!function (theme) {
+  if (theme === 'dark') {
+    document.getElementById('switch-theme-checkbox').parentElement.classList.add('active')
+  }
+}(localStorage && localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)')?.matches && 'dark'))
+</script>
+<div class="body">
+<div class="nav-container" data-component="reactor-netty" data-version="1.2.0">
+  <aside class="nav">
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+        <nav class="nav-menu">
+<div class="context">
+  <span class="title">Reactor Netty Reference Guide</span>
+  <span class="version">1.2.0-SNAPSHOT</span>
+  <button class="browse-version" id="browse-version">
+    <svg
+      height="24px"
+      id="Layer_1"
+      style="enable-background:new 0 0 512 512;"
+      version="1.1"
+      viewBox="0 0 512 512"
+      width="24px"
+      xml:space="preserve"
+    ><g><path
+          d="M256,224c-17.7,0-32,14.3-32,32s14.3,32,32,32c17.7,0,32-14.3,32-32S273.7,224,256,224L256,224z"
+        ></path><path
+          d="M128.4,224c-17.7,0-32,14.3-32,32s14.3,32,32,32c17.7,0,32-14.3,32-32S146,224,128.4,224L128.4,224z"
+        ></path><path
+          d="M384,224c-17.7,0-32,14.3-32,32s14.3,32,32,32s32-14.3,32-32S401.7,224,384,224L384,224z"
+        ></path></g></svg>
+  </button>
+</div><div class="search">
+  <button class="DocSearch-Button search-button">
+    <svg enable-background="new 0 0 32 32" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <path d="M27.414,24.586l-5.077-5.077C23.386,17.928,24,16.035,24,14c0-5.514-4.486-10-10-10S4,8.486,4,14  s4.486,10,10,10c2.035,0,3.928-0.614,5.509-1.663l5.077,5.077c0.78,0.781,2.048,0.781,2.828,0  C28.195,26.633,28.195,25.367,27.414,24.586z M7,14c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S7,17.86,7,14z" id="XMLID_223_"/>
+    </svg>
+    <span>Search</span>
+    <span class="search-key"></span>
+  </button>
+</div>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">About the Documentation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="getting-started.html">Getting Started</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="tcp-server.html">TCP Server</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="tcp-client.html">TCP Client</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="http-server.html">HTTP Server</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="http-client.html">HTTP Client</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="udp-server.html">UDP Server</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="udp-client.html">UDP Client</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+</ul>
+          <div class="toggle-sm">
+            <button id="nav-toggle-2" class="nav-toggle"></button>
+          </div>
+        </nav>
+      </div>
+      <div class="nav-collapse">
+        <button id="nav-collapse-toggle"><span></span></button>        
+      </div>
+    </div>
+    <div class="nav-resize"></div>
+  </aside>
+</div>
+<script>
+!function (sidebar) {
+  if (sidebar) {
+    document.body.classList.add('nav-sm')
+  }
+}(localStorage && localStorage.getItem('sidebar') === 'close')
+</script><main class="article">
+<div class="toolbar" role="navigation">
+  <button id="nav-toggle-1" class="nav-toggle"></button>
+<div class="search">
+  <button class="DocSearch-Button search-button">
+    <svg enable-background="new 0 0 32 32" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <path d="M27.414,24.586l-5.077-5.077C23.386,17.928,24,16.035,24,14c0-5.514-4.486-10-10-10S4,8.486,4,14  s4.486,10,10,10c2.035,0,3.928-0.614,5.509-1.663l5.077,5.077c0.78,0.781,2.048,0.781,2.828,0  C28.195,26.633,28.195,25.367,27.414,24.586z M7,14c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S7,17.86,7,14z" id="XMLID_223_"/>
+    </svg>
+    <span>Search</span>
+    <span class="search-key"></span>
+  </button>
+</div>
+</div>
+  <div class="content">
+<aside class="sidebar">
+  <div class="content">
+    <div
+      class="toc"
+      data-title="HTTP Client"
+      data-levels="2"
+    >
+      <div class="toc-menu"></div>
+    </div>
+    <div class="sidebar-links">
+        <a href="https://github.com/pderop/test.reactor-netty/edit/main/docs/modules/ROOT/pages/http-client.adoc">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          ><path
+              d="m16 2.012 3 3L16.713 7.3l-3-3zM4 14v3h3l8.299-8.287-3-3zm0 6h16v2H4z"
+            ></path></svg>
+          Edit this Page
+        </a>
+              <a href="https://github.com/pderop/test.reactor-netty" title="Github">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="512px"
+            id="Layer_1"
+            version="1.1"
+            viewBox="0 0 512 512"
+            width="512px"
+          ><style type="text/css"><![CDATA[
+              .st0{fill-rule:evenodd;clip-rule:evenodd;} ]]></style><g><path
+                class="st0"
+                d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"
+              ></path></g></svg>
+          GitHub Project
+        </a>
+        <a href="https://stackoverflow.com/tags/reactor-netty">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path
+              d="M290.7 311L95 269.7 86.8 309l195.7 41zm51-87L188.2 95.7l-25.5 30.8 153.5 128.3zm-31.2 39.7L129.2 179l-16.7 36.5L293.7 300zM262 32l-32 24 119.3 160.3 32-24zm20.5 328h-200v39.7h200zm39.7 80H42.7V320h-40v160h359.5V320h-40z"
+            ></path></svg>
+          Stack Overflow
+        </a>
+    </div>
+  </div>
+</aside><article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Reactor Netty Reference Guide</a></li>
+    <li><a href="http-client.html">HTTP Client</a></li>
+  </ul>
+</nav>
+<h1 id="page-title" class="page">HTTP Client</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#connect">1. Connect</a>
+<ul class="sectlevel2">
+<li><a href="#host-and-port">1.1. Host and Port</a></li>
+</ul>
+</li>
+<li><a href="#eager-initialization">2. Eager Initialization</a></li>
+<li><a href="#writing-data">3. Writing Data</a>
+<ul class="sectlevel2">
+<li><a href="#adding-headers-and-other-metadata">3.1. Adding Headers and Other Metadata</a></li>
+</ul>
+</li>
+<li><a href="#consuming-data">4. Consuming Data</a>
+<ul class="sectlevel2">
+<li><a href="#reading-headers-and-other-metadata">4.1. Reading Headers and Other Metadata</a></li>
+<li><a href="#http-response-decoder">4.2. HTTP Response Decoder</a></li>
+</ul>
+</li>
+<li><a href="#lifecycle-callbacks">5. Lifecycle Callbacks</a></li>
+<li><a href="#tcp-level-configuration">6. TCP-level Configuration</a>
+<ul class="sectlevel2">
+<li><a href="#wire-logger">6.1. Wire Logger</a></li>
+</ul>
+</li>
+<li><a href="#wire-logger-formatters">7. Wire Logger formatters</a>
+<ul class="sectlevel2">
+<li><a href="#event-loop-group">7.1. Event Loop Group</a></li>
+</ul>
+</li>
+<li><a href="#connection-pool">8. Connection Pool</a>
+<ul class="sectlevel2">
+<li><a href="#http-client-conn-provider-metrics">8.1. Metrics</a></li>
+</ul>
+</li>
+<li><a href="#ssl-and-tls">9. SSL and TLS</a>
+<ul class="sectlevel2">
+<li><a href="#server-name-indication">9.1. Server Name Indication</a></li>
+</ul>
+</li>
+<li><a href="#retry-strategies">10. Retry Strategies</a>
+<ul class="sectlevel2">
+<li><a href="#protocol-selection">10.1. Protocol Selection</a></li>
+</ul>
+</li>
+<li><a href="#proxy-support">11. Proxy Support</a></li>
+<li><a href="#metrics">12. Metrics</a></li>
+<li><a href="#tracing">13. Tracing</a>
+<ul class="sectlevel2">
+<li><a href="#access-current-observation">13.1. Access Current Observation</a></li>
+</ul>
+</li>
+<li><a href="#unix-domain-sockets">14. Unix Domain Sockets</a></li>
+<li><a href="#host-name-resolution">15. Host Name Resolution</a></li>
+<li><a href="#timeout-configuration">16. Timeout Configuration</a>
+<ul class="sectlevel2">
+<li><a href="#connection-pool-timeout">16.1. Connection Pool Timeout</a></li>
+<li><a href="#http-client-timeout">16.2. HttpClient Timeout</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Reactor Netty provides the easy-to-use and easy-to-configure
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/http/client/HttpClient.html"><code>HttpClient</code></a>.
+It hides most of the Netty functionality that is required to create an <code>HTTP</code> client
+and adds Reactive Streams backpressure.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="connect"><a class="anchor" href="#connect"></a>1. Connect</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To connect the <code>HTTP</code> client to a given <code>HTTP</code> endpoint, you must create and configure a
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/http/client/HttpClient.html"><code>HttpClient</code></a> instance.
+The following example shows how to do so:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/connect/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client = HttpClient.create();  <i class="conum" data-value="1"></i><b>(1)</b>
+
+		client.get()                       <i class="conum" data-value="2"></i><b>(2)</b>
+		      .uri("https://example.com/") <i class="conum" data-value="3"></i><b>(3)</b>
+		      .response()                  <i class="conum" data-value="4"></i><b>(4)</b>
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Creates a <a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/http/client/HttpClient.html">HttpClient</a>
+instance ready for configuring.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Specifies that <code>GET</code> method will be used.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Specifies the path.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Obtains the response <a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/http/client/HttpClientResponse.html">HttpClientResponse</a></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following example uses <code>WebSocket</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/websocket/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.buffer.Unpooled;
+import io.netty.util.CharsetUtil;
+import reactor.core.publisher.Flux;
+import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client = HttpClient.create();
+
+		client.websocket()
+		      .uri("wss://echo.websocket.org")
+		      .handle((inbound, outbound) -&gt; {
+		          inbound.receive()
+		                 .asString()
+		                 .take(1)
+		                 .subscribe(System.out::println);
+
+		          final byte[] msgBytes = "hello".getBytes(CharsetUtil.ISO_8859_1);
+		          return outbound.send(Flux.just(Unpooled.wrappedBuffer(msgBytes), Unpooled.wrappedBuffer(msgBytes)))
+		                         .neverComplete();
+		      })
+		      .blockLast();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="host-and-port"><a class="anchor" href="#host-and-port"></a>1.1. Host and Port</h3>
+<div class="paragraph">
+<p>In order to connect to a specific host and port, you can apply the following configuration to the <code>HTTP</code> client:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/address/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .host("example.com") <i class="conum" data-value="1"></i><b>(1)</b>
+				          .port(80);           <i class="conum" data-value="2"></i><b>(2)</b>
+
+		client.get()
+		      .uri("/")
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the <code>HTTP</code> host</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Configures the <code>HTTP</code> port</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="eager-initialization"><a class="anchor" href="#eager-initialization"></a>2. Eager Initialization</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, the initialization of the <code>HttpClient</code> resources happens on demand. This means that the <code>first
+request</code> absorbs the extra time needed to initialize and load:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the event loop group</p>
+</li>
+<li>
+<p>the host name resolver</p>
+</li>
+<li>
+<p>the native transport libraries (when native transport is used)</p>
+</li>
+<li>
+<p>the native libraries for the security (in case of <code>OpenSsl</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When you need to preload these resources, you can configure the <code>HttpClient</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/warmup/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.core.publisher.Mono;
+import reactor.netty.ByteBufFlux;
+import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client = HttpClient.create();
+
+		client.warmup() <i class="conum" data-value="1"></i><b>(1)</b>
+		      .block();
+
+		client.post()
+		      .uri("https://example.com/")
+		      .send(ByteBufFlux.fromString(Mono.just("hello")))
+		      .response()
+		      .block(); <i class="conum" data-value="2"></i><b>(2)</b>
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Initialize and load the event loop group, the host name resolver, the native transport libraries and
+the native libraries for the security</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Host name resolution happens with the first request.
+In this example, a connection pool is used, so with the first request the connection to the URL is established,
+the subsequent requests to the same URL reuse the connections from the pool.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="writing-data"><a class="anchor" href="#writing-data"></a>3. Writing Data</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To send data to a given <code>HTTP</code> endpoint, you can provide a <code>Publisher</code> by using the
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/http/client/HttpClient.RequestSender.html#send-org.reactivestreams.Publisher-"><code>send(Publisher)</code></a> method.
+By default, <code>Transfer-Encoding: chunked</code> is applied for those <code>HTTP</code> methods for which
+a request body is expected. <code>Content-Length</code> provided through request headers disables <code>Transfer-Encoding: chunked</code>,
+if necessary. The following example sends <code>hello</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/send/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.core.publisher.Mono;
+import reactor.netty.ByteBufFlux;
+import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client = HttpClient.create();
+
+		client.post()
+		      .uri("https://example.com/")
+		      .send(ByteBufFlux.fromString(Mono.just("hello"))) <i class="conum" data-value="1"></i><b>(1)</b>
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Sends a <code>hello</code> string to the given <code>HTTP</code> endpoint</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="adding-headers-and-other-metadata"><a class="anchor" href="#adding-headers-and-other-metadata"></a>3.1. Adding Headers and Other Metadata</h3>
+<div class="paragraph">
+<p>When sending data to a given <code>HTTP</code> endpoint, you may need to send additional headers, cookies and other metadata.
+You can use the following configuration to do so:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/send/headers/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.handler.codec.http.HttpHeaderNames;
+import reactor.core.publisher.Mono;
+import reactor.netty.ByteBufFlux;
+import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .headers(h -&gt; h.set(HttpHeaderNames.CONTENT_LENGTH, 5)); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		client.post()
+		      .uri("https://example.com/")
+		      .send(ByteBufFlux.fromString(Mono.just("hello")))
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Disables <code>Transfer-Encoding: chunked</code> and provides <code>Content-Length</code> header.</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="compression"><a class="anchor" href="#compression"></a>3.1.1. Compression</h4>
+<div class="paragraph">
+<p>You can enable compression on the <code>HTTP</code> client, which means the request header
+<code>Accept-Encoding</code> is added to the request headers. The following example shows how to do so:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/compression/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .compress(true);
+
+		client.get()
+		      .uri("https://example.com/")
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="auto-redirect-support"><a class="anchor" href="#auto-redirect-support"></a>3.1.2. Auto-Redirect Support</h4>
+<div class="paragraph">
+<p>You can configure the <code>HTTP</code> client to enable auto-redirect support.</p>
+</div>
+<div class="paragraph">
+<p>Reactor Netty provides two different strategies for auto-redirect support:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>followRedirect(boolean)</code>: Specifies whether HTTP auto-redirect support is enabled for statuses <code>301|302|303|307|308</code>.
+When it is <code>303</code> status code, <code>GET</code> method is used for the redirect.</p>
+</li>
+<li>
+<p><code>followRedirect(BiPredicate&lt;HttpClientRequest, HttpClientResponse&gt;)</code>: Enables auto-redirect support if the supplied
+predicate matches.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following example uses <code>followRedirect(true)</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/redirect/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .followRedirect(true);
+
+		client.get()
+		      .uri("https://example.com/")
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="consuming-data"><a class="anchor" href="#consuming-data"></a>4. Consuming Data</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To receive data from a given <code>HTTP</code> endpoint, you can use one of the methods from
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/http/client/HttpClient.ResponseReceiver.html"><code>HttpClient.ResponseReceiver</code></a>.
+The following example uses the <code>responseContent</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/read/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client = HttpClient.create();
+
+		client.get()
+		      .uri("https://example.com/")
+		      .responseContent() <i class="conum" data-value="1"></i><b>(1)</b>
+		      .aggregate()       <i class="conum" data-value="2"></i><b>(2)</b>
+		      .asString()        <i class="conum" data-value="3"></i><b>(3)</b>
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Receives data from a given <code>HTTP</code> endpoint</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Aggregates the data</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Transforms the data as string</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="reading-headers-and-other-metadata"><a class="anchor" href="#reading-headers-and-other-metadata"></a>4.1. Reading Headers and Other Metadata</h3>
+<div class="paragraph">
+<p>When receiving data from a given <code>HTTP</code> endpoint, you can check response headers, status code, and other metadata.
+You can obtain this additional metadata by using
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/http/client/HttpClientResponse.html"><code>HttpClientResponse</code></a>.
+The following example shows how to do so.</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/read/status/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client = HttpClient.create();
+
+		client.get()
+		      .uri("https://example.com/")
+		      .responseSingle((resp, bytes) -&gt; {
+		          System.out.println(resp.status()); <i class="conum" data-value="1"></i><b>(1)</b>
+		          return bytes.asString();
+		      })
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Obtains the status code.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="http-response-decoder"><a class="anchor" href="#http-response-decoder"></a>4.2. HTTP Response Decoder</h3>
+<div class="paragraph">
+<p>By default, <code>Netty</code> configures some restrictions for the incoming responses, such as:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The maximum length of the initial line.</p>
+</li>
+<li>
+<p>The maximum length of all headers.</p>
+</li>
+<li>
+<p>The maximum length of the content or each chunk.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more information, see <a href="https://netty.io/4.1/api/io/netty/handler/codec/http/HttpResponseDecoder.html">HttpResponseDecoder</a></p>
+</div>
+<div class="paragraph">
+<p>By default, the <code>HTTP</code> client is configured with the following settings:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-http/src/main/java/reactor/netty/http/HttpDecoderSpec.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public static final int DEFAULT_MAX_INITIAL_LINE_LENGTH             = 4096;
+public static final int DEFAULT_MAX_HEADER_SIZE                     = 8192;
+/**
+ * Default max chunk size.
+ *
+ * @deprecated as of 1.1.0. This will be removed in 2.0.0 as Netty 5 does not support this configuration.
+ */
+@Deprecated
+public static final int DEFAULT_MAX_CHUNK_SIZE                      = 8192;
+public static final boolean DEFAULT_VALIDATE_HEADERS                = true;
+public static final int DEFAULT_INITIAL_BUFFER_SIZE                 = 128;
+public static final boolean DEFAULT_ALLOW_DUPLICATE_CONTENT_LENGTHS = false;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-http/src/main/java/reactor/netty/http/client/HttpResponseDecoderSpec.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+ * The maximum length of the content of the HTTP/2.0 clear-text upgrade request.
+ * By default, the client will allow an upgrade request with up to 65536 as
+ * the maximum length of the aggregated content.
+ */
+public static final int DEFAULT_H2C_MAX_CONTENT_LENGTH = 65536;
+
+boolean failOnMissingResponse        = DEFAULT_FAIL_ON_MISSING_RESPONSE;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When you need to change these default settings, you can configure the <code>HTTP</code> client as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/responsedecoder/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .httpResponseDecoder(spec -&gt; spec.maxHeaderSize(16384)); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		client.get()
+		      .uri("https://example.com/")
+		      .responseContent()
+		      .aggregate()
+		      .asString()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The maximum length of all headers will be <code>16384</code>.
+When this value is exceeded, a
+<a href="https://netty.io/4.1/api/io/netty/handler/codec/TooLongFrameException.html">TooLongFrameException</a>
+is raised.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="lifecycle-callbacks"><a class="anchor" href="#lifecycle-callbacks"></a>5. Lifecycle Callbacks</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following lifecycle callbacks are provided to let you extend the <code>HttpClient</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Callback</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doAfterRequest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked when the request has been sent.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doAfterResolve</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked after the remote address has been resolved successfully.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doAfterResponseSuccess</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked after the response has been fully received.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnChannelInit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked when initializing the channel.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnConnect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked when the channel is about to connect.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnConnected</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked after the channel has been connected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnDisconnected</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked after the channel has been disconnected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnError</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked when the request has not been sent and when the response has not been fully received.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnRedirect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked when the response headers have been received, and the request is about to be redirected.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnRequest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked when the request is about to be sent.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnRequestError</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked when the request has not been sent.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnResolve</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked when the remote address is about to be resolved.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnResolveError</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked in case the remote address hasn&#8217;t been resolved successfully.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnResponse</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked after the response headers have been received.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doOnResponseError</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invoked when the response has not been fully received.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following example uses the <code>doOnConnected</code> and <code>doOnChannelInit</code> callbacks:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/lifecycle/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import reactor.netty.http.client.HttpClient;
+import java.util.concurrent.TimeUnit;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .doOnConnected(conn -&gt;
+				              conn.addHandlerFirst(new ReadTimeoutHandler(10, TimeUnit.SECONDS)))   <i class="conum" data-value="1"></i><b>(1)</b>
+				          .doOnChannelInit((observer, channel, remoteAddress) -&gt;
+				              channel.pipeline()
+				                     .addFirst(new LoggingHandler("reactor.netty.examples")));      <i class="conum" data-value="2"></i><b>(2)</b>
+
+		client.get()
+		      .uri("https://example.com/")
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>Netty</code> pipeline is extended with <code>ReadTimeoutHandler</code> when the channel has been connected.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>Netty</code> pipeline is extended with <code>LoggingHandler</code> when initializing the channel.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tcp-level-configuration"><a class="anchor" href="#tcp-level-configuration"></a>6. TCP-level Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you need configurations on a TCP level, you can use the following snippet
+to extend the default <code>TCP</code> client configuration (add an option, bind address etc.):</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/channeloptions/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.channel.ChannelOption;
+import io.netty.channel.epoll.EpollChannelOption;
+</span><span class="fold-block">//import io.netty.channel.socket.nio.NioChannelOption;
+//import jdk.net.ExtendedSocketOptions;
+</span><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+import java.net.InetSocketAddress;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .bindAddress(() -&gt; new InetSocketAddress("host", 1234))
+				          .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000) <i class="conum" data-value="1"></i><b>(1)</b>
+				          .option(ChannelOption.SO_KEEPALIVE, true)            <i class="conum" data-value="2"></i><b>(2)</b>
+				          // The options below are available only when NIO transport (Java 11) is used
+				          // on Mac or Linux (Java does not currently support these extended options on Windows)
+				          // https://bugs.openjdk.java.net/browse/JDK-8194298
+				          //.option(NioChannelOption.of(ExtendedSocketOptions.TCP_KEEPIDLE), 300)
+				          //.option(NioChannelOption.of(ExtendedSocketOptions.TCP_KEEPINTERVAL), 60)
+				          //.option(NioChannelOption.of(ExtendedSocketOptions.TCP_KEEPCOUNT), 8);
+				          // The options below are available only when Epoll transport is used
+				          .option(EpollChannelOption.TCP_KEEPIDLE, 300)        <i class="conum" data-value="3"></i><b>(3)</b>
+				          .option(EpollChannelOption.TCP_KEEPINTVL, 60)        <i class="conum" data-value="4"></i><b>(4)</b>
+				          .option(EpollChannelOption.TCP_KEEPCNT, 8);          <i class="conum" data-value="5"></i><b>(5)</b>
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the connection establishment timeout to 10 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Enables TCP <code>keepalive</code>. This means that TCP starts sending <code>keepalive</code> probes when a connection is idle for some time.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The connection needs to remain idle for 5 minutes before TCP starts sending <code>keepalive</code> probes.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Configures the time between individual <code>keepalive</code> probes to 1 minute.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Configures the maximum number of TCP <code>keepalive</code> probes to 8.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>See <a href="tcp-client.html" class="xref page">TCP Client</a> for more about <code>TCP</code> level configurations.</p>
+</div>
+<div class="sect2">
+<h3 id="wire-logger"><a class="anchor" href="#wire-logger"></a>6.1. Wire Logger</h3>
+<div class="paragraph">
+<p>Reactor Netty provides wire logging for when the traffic between the peers needs to be inspected.
+By default, wire logging is disabled.
+To enable it, you must set the logger <code>reactor.netty.http.client.HttpClient</code> level to <code>DEBUG</code>
+and apply the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/wiretap/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .wiretap(true); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		client.get()
+		      .uri("https://example.com/")
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Enables the wire logging</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="wire-logger-formatters"><a class="anchor" href="#wire-logger-formatters"></a>7. Wire Logger formatters</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Reactor Netty supports 3 different formatters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/transport/logging/AdvancedByteBufFormat.html#HEX_DUMP">AdvancedByteBufFormat#HEX_DUMP</a> - the default</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-http/src/main/java/reactor/netty/transport/logging/AdvancedByteBufFormat.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+ * When wire logging is enabled with this format, both events and content will be logged.
+ * The content will be in hex format.
+ * &lt;p&gt;Examples:&lt;/p&gt;
+ * &lt;pre&gt;
+ * {@code
+ * reactor.netty.http.HttpTests - [d5230a14, L:/0:0:0:0:0:0:0:1:60267 - R:/0:0:0:0:0:0:0:1:60269] REGISTERED
+ * reactor.netty.http.HttpTests - [d5230a14, L:/0:0:0:0:0:0:0:1:60267 - R:/0:0:0:0:0:0:0:1:60269] ACTIVE
+ * reactor.netty.http.HttpTests - [d5230a14, L:/0:0:0:0:0:0:0:1:60267 - R:/0:0:0:0:0:0:0:1:60269] READ: 145B
+ *          +-------------------------------------------------+
+ *          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
+ * +--------+-------------------------------------------------+----------------+
+ * |00000000| 50 4f 53 54 20 2f 74 65 73 74 2f 57 6f 72 6c 64 |POST /test/World|
+ * |00000010| 20 48 54 54 50 2f 31 2e 31 0d 0a 43 6f 6e 74 65 | HTTP/1.1..Conte|
+ * |00000020| 6e 74 2d 54 79 70 65 3a 20 74 65 78 74 2f 70 6c |nt-Type: text/pl|
+ * |00000030| 61 69 6e 0d 0a 75 73 65 72 2d 61 67 65 6e 74 3a |ain..user-agent:|
+ * |00000040| 20 52 65 61 63 74 6f 72 4e 65 74 74 79 2f 64 65 | ReactorNetty/de|
+ * ...
+ * reactor.netty.http.HttpTests - [d5230a14, L:/0:0:0:0:0:0:0:1:60267 - R:/0:0:0:0:0:0:0:1:60269] WRITE: 38B
+ *          +-------------------------------------------------+
+ *          |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
+ * +--------+-------------------------------------------------+----------------+
+ * |00000000| 48 54 54 50 2f 31 2e 31 20 32 30 30 20 4f 4b 0d |HTTP/1.1 200 OK.|
+ * |00000010| 0a 63 6f 6e 74 65 6e 74 2d 6c 65 6e 67 74 68 3a |.content-length:|
+ * |00000020| 20 30 0d 0a 0d 0a                               | 0....          |
+ * +--------+-------------------------------------------------+----------------+
+ * }
+ * &lt;/pre&gt;
+ */</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/transport/logging/AdvancedByteBufFormat.html#SIMPLE">AdvancedByteBufFormat#SIMPLE</a></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-http/src/main/java/reactor/netty/transport/logging/AdvancedByteBufFormat.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+ * When wire logging is enabled with this format, only the events will be logged.
+ * &lt;p&gt;Examples:&lt;/p&gt;
+ * &lt;pre&gt;
+ * {@code
+ * reactor.netty.http.HttpTests - [230d3686, L:/0:0:0:0:0:0:0:1:60241 - R:/0:0:0:0:0:0:0:1:60245] REGISTERED
+ * reactor.netty.http.HttpTests - [230d3686, L:/0:0:0:0:0:0:0:1:60241 - R:/0:0:0:0:0:0:0:1:60245] ACTIVE
+ * reactor.netty.http.HttpTests - [230d3686, L:/0:0:0:0:0:0:0:1:60241 - R:/0:0:0:0:0:0:0:1:60245] READ: 145B
+ * reactor.netty.http.HttpTests - [230d3686, L:/0:0:0:0:0:0:0:1:60241 - R:/0:0:0:0:0:0:0:1:60245] WRITE: 38B
+ * }
+ * &lt;/pre&gt;
+ */</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/transport/logging/AdvancedByteBufFormat.html#TEXTUAL">AdvancedByteBufFormat#TEXTUAL</a></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-http/src/main/java/reactor/netty/transport/logging/AdvancedByteBufFormat.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+ * When wire logging is enabled with this format, both events and content will be logged.
+ * The content will be in plain text format.
+ * &lt;p&gt;Examples:&lt;/p&gt;
+ * &lt;pre&gt;
+ * {@code
+ * reactor.netty.http.HttpTests - [02c3db6c, L:/0:0:0:0:0:0:0:1:60317 - R:/0:0:0:0:0:0:0:1:60319] REGISTERED
+ * reactor.netty.http.HttpTests - [02c3db6c, L:/0:0:0:0:0:0:0:1:60317 - R:/0:0:0:0:0:0:0:1:60319] ACTIVE
+ * reactor.netty.http.HttpTests - [02c3db6c, L:/0:0:0:0:0:0:0:1:60317 - R:/0:0:0:0:0:0:0:1:60319] READ: 145B POST /test/World HTTP/1.1
+ * Content-Type: text/plain
+ * user-agent: ReactorNetty/dev
+ * ...
+ * reactor.netty.http.HttpTests - [02c3db6c, L:/0:0:0:0:0:0:0:1:60317 - R:/0:0:0:0:0:0:0:1:60319] WRITE: 38B HTTP/1.1 200 OK
+ * content-length: 0
+ * }
+ * &lt;/pre&gt;
+ */</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When you need to change the default formatter you can configure it as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/wiretap/custom/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.handler.logging.LogLevel;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.transport.logging.AdvancedByteBufFormat;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .wiretap("logger-name", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		client.get()
+		      .uri("https://example.com/")
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Enables the wire logging,
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/transport/logging/AdvancedByteBufFormat.html#TEXTUAL">AdvancedByteBufFormat#TEXTUAL</a> is used for
+printing the content.</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="event-loop-group"><a class="anchor" href="#event-loop-group"></a>7.1. Event Loop Group</h3>
+<div class="paragraph">
+<p>By default <code>Reactor Netty</code> uses an &#8220;Event Loop Group&#8221;, where the number of the worker threads equals the number of
+processors available to the runtime on initialization (but with a minimum value of 4). When you need a different configuration,
+you can use one of the <a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/resources/LoopResources.html"><code>LoopResource</code></a><code>#create</code>
+methods.</p>
+</div>
+<div class="paragraph">
+<p>The following listing shows the default configuration for the Event Loop Group:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-core/src/main/java/reactor/netty/ReactorNetty.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/**
+ * Default worker thread count, fallback to available processor
+ * (but with a minimum value of 4).
+ */
+public static final String IO_WORKER_COUNT = "reactor.netty.ioWorkerCount";
+/**
+ * Default selector thread count, fallback to -1 (no selector thread)
+ * &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; In most use cases using a worker thread also as a selector thread works well.
+ * A possible use case for specifying a separate selector thread might be when the worker threads are too busy
+ * and connections cannot be accepted fast enough.
+ * &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Although more than 1 can be configured as a selector thread count, in reality
+ * only 1 thread will be used as a selector thread.
+ */
+public static final String IO_SELECT_COUNT = "reactor.netty.ioSelectCount";
+/**
+ * Default worker thread count for UDP, fallback to available processor
+ * (but with a minimum value of 4).
+ */
+public static final String UDP_IO_THREAD_COUNT = "reactor.netty.udp.ioThreadCount";
+/**
+ * Default quiet period that guarantees that the disposal of the underlying LoopResources
+ * will not happen, fallback to 2 seconds.
+ */
+public static final String SHUTDOWN_QUIET_PERIOD = "reactor.netty.ioShutdownQuietPeriod";
+/**
+ * Default maximum amount of time to wait until the disposal of the underlying LoopResources
+ * regardless if a task was submitted during the quiet period, fallback to 15 seconds.
+ */
+public static final String SHUTDOWN_TIMEOUT = "reactor.netty.ioShutdownTimeout";
+
+/**
+ * Default value whether the native transport (epoll, kqueue) will be preferred,
+ * fallback it will be preferred when available.
+ */
+public static final String NATIVE = "reactor.netty.native";</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you need changes to these settings, you can apply the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/eventloop/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.LoopResources;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		LoopResources loop = LoopResources.create("event-loop", 1, 4, true);
+		HttpClient client =
+				HttpClient.create()
+				          .runOn(loop);
+
+		client.get()
+		      .uri("https://example.com/")
+		      .responseContent()
+		      .aggregate()
+		      .asString()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="connection-pool"><a class="anchor" href="#connection-pool"></a>8. Connection Pool</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, <code>HttpClient</code> uses a &#8220;fixed&#8221; connection pool with <code>500</code> as the maximum number of active channels
+and <code>1000</code> as the maximum number of further channel acquisition attempts allowed to be kept in a pending state
+(for the rest of the configurations check the system properties or the builder configurations below).
+This means that the implementation creates a new channel if someone tries to acquire a channel
+as long as less than <code>500</code> have been created and are managed by the pool.
+When the maximum number of channels in the pool is reached, up to <code>1000</code> new attempts to
+acquire a channel are delayed (pending) until a channel is returned to the pool again,
+and further attempts are declined with an error.</p>
+</div>
+<div class="listingblock">
+<div class="title">./../../reactor-netty-core/src/main/java/reactor/netty/ReactorNetty.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block"></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When you need to change the default settings, you can configure the <code>ConnectionProvider</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/pool/config/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
+
+import java.time.Duration;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		ConnectionProvider provider =
+				ConnectionProvider.builder("custom")
+				                  .maxConnections(50)
+				                  .maxIdleTime(Duration.ofSeconds(20))           <i class="conum" data-value="1"></i><b>(1)</b>
+				                  .maxLifeTime(Duration.ofSeconds(60))           <i class="conum" data-value="2"></i><b>(2)</b>
+				                  .pendingAcquireTimeout(Duration.ofSeconds(60)) <i class="conum" data-value="3"></i><b>(3)</b>
+				                  .evictInBackground(Duration.ofSeconds(120))    <i class="conum" data-value="4"></i><b>(4)</b>
+				                  .build();
+
+		HttpClient client = HttpClient.create(provider);
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+
+		provider.disposeLater()
+		        .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the maximum time for a connection to stay idle to 20 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Configures the maximum time for a connection to stay alive to 60 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Configures the maximum time for the pending acquire operation to 60 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Every two minutes, the connection pool is regularly checked for connections that are applicable for removal.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Notice that only the default <code>HttpClient</code> (<code>HttpClient.create()</code>) uses <code>500</code> as the maximum number of active channels. In the example above, when
+instantiating a custom <code>ConnectionProvider</code>, we are changing this value to <code>50</code> using <code>maxConnections</code>. Also, if you don&#8217;t set this parameter the
+default <code>maxConnections</code> is used (2 * available number of processors).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following listing shows the available configurations:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Configuration name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>disposeInactivePoolsInBackground</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When this option is enabled, connection pools are regularly checked in the background,
+and those that are <strong>empty</strong> and been inactive for a specified time become eligible for disposal. Connection pool is considered
+<strong>empty</strong> when there are no active connections, idle connections and pending acquisitions. By default, this background disposal of inactive pools is disabled.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>disposeTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When <code>ConnectionProvider#dispose()</code> or <code>ConnectionProvider#disposeLater()</code> is called,
+trigger a graceful shutdown for the connection pools, with this grace period timeout.
+From there on, all calls for acquiring a connection will fail fast with an exception.
+However, for the provided <code>Duration</code>, pending acquires will get a chance to be served.
+Note: The rejection of new acquires and the grace timer start immediately,
+irrespective of subscription to the <code>Mono</code> returned by <code>ConnectionProvider#disposeLater()</code>.
+Subsequent calls return the same <code>Mono</code>, effectively getting notifications from the first graceful
+shutdown call and ignoring subsequently provided timeouts. By default, dispose timeout is not specified.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>evictInBackground</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When this option is enabled, each connection pool regularly checks for connections that are
+eligible for removal according to eviction criteria like <code>maxIdleTime</code>. By default, this background eviction is disabled.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fifo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure the connection pool so that if there are idle connections (i.e. pool is under-utilized),
+the next acquire operation will get the <code>Least Recently Used</code> connection
+(LRU, i.e. the connection that was released first among the current idle connections). Default leasing strategy.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lifo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure the connection pool so that if there are idle connections (i.e. pool is under-utilized),
+the next acquire operation will get the <code>Most Recently Used</code> connection
+(MRU, i.e. the connection that was released last among the current idle connections).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxConnections</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of connections (per connection pool) before start pending. Default to
+2 * available number of processors (but with a minimum value of 16).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxIdleTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The time after which the channel is eligible to be closed when idle (resolution: ms). Default: max idle time is not specified.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxLifeTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The total life time after which the channel is eligible to be closed (resolution: ms). Default: max life time is not specified.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metrics</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables/disables built-in integration with Micrometer. <code>ConnectionProvider.MeterRegistrar</code> can be provided
+for integration with another metrics system. By default, metrics are not enabled.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pendingAcquireMaxCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of extra attempts at acquiring a connection to keep in a pending queue.
+If -1 is specified, the pending queue does not have upper limit. Default to 2 * max connections.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pendingAcquireTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum time before which a pending acquire must complete, or a TimeoutException is
+thrown (resolution: ms). If -1 is specified, no such timeout is applied. Default: 45 seconds.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When you expect a high load, be cautious with a connection pool with a very high value for maximum connections. You might experience
+<code>reactor.netty.http.client.PrematureCloseException</code> exception with a root cause "Connect Timeout" due
+to too many concurrent connections opened/acquired.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If you need to disable the connection pool, you can apply the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/pool/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.newConnection()
+				          .doOnConnected(conn -&gt; System.out.println("Connection " + conn.channel()));
+
+		String response =
+				// A new connection is established for every request
+				client.get()
+				      .uri("https://httpbin.org/get")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+
+		response =
+				// A new connection is established for every request
+				client.post()
+				      .uri("https://httpbin.org/post")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="http-client-conn-provider-metrics"><a class="anchor" href="#http-client-conn-provider-metrics"></a>8.1. Metrics</h3>
+<div class="paragraph">
+<p>The pooled <code>ConnectionProvider</code> supports built-in integration with <a href="https://micrometer.io/"><code>Micrometer</code></a>.
+It exposes all metrics with a prefix of <code>reactor.netty.connection.provider</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following example enables that integration:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/pool/metrics/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		ConnectionProvider provider =
+				ConnectionProvider.builder("custom")
+				                  .maxConnections(50)
+				                  .metrics(true) <i class="conum" data-value="1"></i><b>(1)</b>
+				                  .build();
+
+		HttpClient client = HttpClient.create(provider);
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+
+		provider.disposeLater()
+		        .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Enables the built-in integration with Micrometer</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ssl-and-tls"><a class="anchor" href="#ssl-and-tls"></a>9. SSL and TLS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you need SSL or TLS, you can apply the configuration shown in the next example.
+By default, if <code>OpenSSL</code> is available, a
+<a href="https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#OPENSSL">SslProvider.OPENSSL</a>
+provider is used as a provider. Otherwise, a
+<a href="https://netty.io/4.1/api/io/netty/handler/ssl/SslProvider.html#JDK">SslProvider.JDK</a> provider is used
+You can switch the provider by using
+<a href="https://netty.io/4.1/api/io/netty/handler/ssl/SslContextBuilder.html#sslProvider-io.netty.handler.ssl.SslProvider-">SslContextBuilder</a>
+or by setting <code>-Dio.netty.handler.ssl.noOpenSsl=true</code>.
+The following example uses <code>SslContextBuilder</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/security/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.Http11SslContextSpec;
+import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		Http11SslContextSpec http11SslContextSpec = Http11SslContextSpec.forClient();
+
+		HttpClient client =
+				HttpClient.create()
+				          .secure(spec -&gt; spec.sslContext(http11SslContextSpec));
+
+		client.get()
+		      .uri("https://example.com/")
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="server-name-indication"><a class="anchor" href="#server-name-indication"></a>9.1. Server Name Indication</h3>
+<div class="paragraph">
+<p>By default, the <code>HTTP</code> client sends the remote host name as <code>SNI</code> server name.
+When you need to change this default setting, you can configure the <code>HTTP</code> client as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/sni/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import reactor.netty.http.client.HttpClient;
+
+import javax.net.ssl.SNIHostName;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) throws Exception {
+		SslContext sslContext = SslContextBuilder.forClient().build();
+
+		HttpClient client =
+				HttpClient.create()
+				          .secure(spec -&gt; spec.sslContext(sslContext)
+				                              .serverNames(new SNIHostName("test.com")));
+
+		client.get()
+		      .uri("https://127.0.0.1:8080/")
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="retry-strategies"><a class="anchor" href="#retry-strategies"></a>10. Retry Strategies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, the <code>HTTP</code> client retries the request once if it was aborted on the <code>TCP</code> level.</p>
+</div>
+<div class="paragraph">
+<p>[[http/2]]
+== HTTP/2</p>
+</div>
+<div class="paragraph">
+<p>By default, the <code>HTTP</code> client supports <code>HTTP/1.1</code>. If you need <code>HTTP/2</code>, you can get it through configuration.
+In addition to the protocol configuration, if you need <code>H2</code> but not <code>H2C (cleartext)</code>, you must also configure SSL.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+As Application-Layer Protocol Negotiation (ALPN) is not supported &#8220;out-of-the-box&#8221; by JDK8 (although some vendors backported ALPN to JDK8), you need an additional dependency to a native library that
+supports it&#8201;&#8212;&#8201;for example, <a href="https://netty.io/wiki/forked-tomcat-native.html"><code>netty-tcnative-boringssl-static</code></a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following listing presents a simple <code>H2</code> example:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/http2/H2Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.handler.codec.http.HttpHeaders;
+import reactor.core.publisher.Mono;
+import reactor.netty.http.HttpProtocol;
+import reactor.netty.http.client.HttpClient;
+import reactor.util.function.Tuple2;
+
+</span><span class="fold-block">public class H2Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .protocol(HttpProtocol.H2) <i class="conum" data-value="1"></i><b>(1)</b>
+				          .secure();                 <i class="conum" data-value="2"></i><b>(2)</b>
+
+		Tuple2&lt;String, HttpHeaders&gt; response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseSingle((res, bytes) -&gt; bytes.asString()
+				                                           .zipWith(Mono.just(res.responseHeaders())))
+				      .block();
+
+		System.out.println("Used stream ID: " + response.getT2().get("x-http2-stream-id"));
+		System.out.println("Response: " + response.getT1());
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the client to support only <code>HTTP/2</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Configures <code>SSL</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following listing presents a simple <code>H2C</code> example:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/http2/H2CApplication.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.handler.codec.http.HttpHeaders;
+import reactor.core.publisher.Mono;
+import reactor.netty.http.HttpProtocol;
+import reactor.netty.http.client.HttpClient;
+import reactor.util.function.Tuple2;
+
+</span><span class="fold-block">public class H2CApplication {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .protocol(HttpProtocol.H2C);
+
+		Tuple2&lt;String, HttpHeaders&gt; response =
+				client.get()
+				      .uri("http://localhost:8080/")
+				      .responseSingle((res, bytes) -&gt; bytes.asString()
+				                                           .zipWith(Mono.just(res.responseHeaders())))
+				      .block();
+
+		System.out.println("Used stream ID: " + response.getT2().get("x-http2-stream-id"));
+		System.out.println("Response: " + response.getT1());
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="protocol-selection"><a class="anchor" href="#protocol-selection"></a>10.1. Protocol Selection</h3>
+<div class="listingblock">
+<div class="title">example$reactor-netty-http/src/main/java/reactor/netty/http/HttpProtocol.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public enum HttpProtocol {
+
+	/**
+	 * The default supported HTTP protocol by HttpServer and HttpClient.
+	 */
+	HTTP11,
+
+	/**
+	 * HTTP/2.0 support with TLS
+	 * &lt;p&gt;If used along with HTTP/1.1 protocol, HTTP/2.0 will be the preferred protocol.
+	 * While negotiating the application level protocol, HTTP/2.0 or HTTP/1.1 can be chosen.
+	 * &lt;p&gt;If used without HTTP/1.1 protocol, HTTP/2.0 will always be offered as a protocol
+	 * for communication with no fallback to HTTP/1.1.
+	 */
+	H2,
+
+	/**
+	 * HTTP/2.0 support with clear-text.
+	 * &lt;p&gt;If used along with HTTP/1.1 protocol, will support H2C "upgrade":
+	 * Request or consume requests as HTTP/1.1 first, looking for HTTP/2.0 headers
+	 * and {@literal Connection: Upgrade}. A server will typically reply a successful
+	 * 101 status if upgrade is successful or a fallback HTTP/1.1 response. When
+	 * successful the client will start sending HTTP/2.0 traffic.
+	 * &lt;p&gt;If used without HTTP/1.1 protocol, will support H2C "prior-knowledge": Doesn't
+	 * require {@literal Connection: Upgrade} handshake between a client and server but
+	 * fallback to HTTP/1.1 will not be supported.
+	 */
+	H2C
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="proxy-support"><a class="anchor" href="#proxy-support"></a>11. Proxy Support</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Reactor Netty supports the proxy functionality provided by Netty and provides a way
+to specify <code>non proxy hosts</code> through the <a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/tcp/ProxyProvider.html"><code>ProxyProvider</code></a> builder.</p>
+</div>
+<div class="paragraph">
+<p>Netty&#8217;s HTTP proxy support always uses <code>CONNECT</code> method in order to establish a tunnel to the specified proxy regardless of the scheme that is used <code>http</code> or <code>https</code>.
+(More information: <a href="https://github.com/netty/netty/issues/10475">Netty enforce HTTP proxy to support HTTP CONNECT method</a>).
+Some proxies might not support <code>CONNECT</code> method when the scheme is <code>http</code> or might need to be configured in order to support this way of communication.
+Sometimes this might be the reason for not being able to connect to the proxy. Consider checking the proxy documentation
+whether it supports or needs an additional configuration in order to support <code>CONNECT</code> method.</p>
+</div>
+<div class="paragraph">
+<p>The following example uses <code>ProxyProvider</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/proxy/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+import reactor.netty.transport.ProxyProvider;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .proxy(spec -&gt; spec.type(ProxyProvider.Proxy.HTTP)
+				                             .host("proxy")
+				                             .port(8080)
+				                             .nonProxyHosts("localhost")
+				                             .connectTimeoutMillis(20_000)); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the connection establishment timeout to 20 seconds.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="metrics"><a class="anchor" href="#metrics"></a>12. Metrics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The HTTP client supports built-in integration with <a href="https://micrometer.io/"><code>Micrometer</code></a>.
+It exposes all metrics with a prefix of <code>reactor.netty.http.client</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following table provides information for the HTTP client metrics:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">metric name</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.http.client.data.received</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DistributionSummary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount of the data received, in bytes.
+See <a href="observability.html#observability-metrics-data-received" class="xref page">observability.adoc#observability-metrics-data-received</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.http.client.data.sent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DistributionSummary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount of the data sent, in bytes.
+See <a href="observability.html#observability-metrics-data-sent" class="xref page">observability.adoc#observability-metrics-data-sent</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.http.client.errors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Counter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of errors that occurred.
+See <a href="observability.html#observability-metrics-errors-count" class="xref page">observability.adoc#observability-metrics-errors-count</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.http.client.tls.handshake.time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time spent for TLS handshake.
+See <a href="observability.html#observability-metrics-tls-handshake-time" class="xref page">observability.adoc#observability-metrics-tls-handshake-time</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.http.client.connect.time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time spent for connecting to the remote address.
+See <a href="observability.html#observability-metrics-connect-time" class="xref page">observability.adoc#observability-metrics-connect-time</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.http.client.address.resolver</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time spent for resolving the address.
+See <a href="observability.html#observability-metrics-hostname-resolution-time" class="xref page">observability.adoc#observability-metrics-hostname-resolution-time</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.http.client.data.received.time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time spent in consuming incoming data.
+See <a href="observability.html#observability-metrics-http-client-data-received-time" class="xref page">observability.adoc#observability-metrics-http-client-data-received-time</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.http.client.data.sent.time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time spent in sending outgoing data.
+See <a href="observability.html#observability-metrics-http-client-data-sent-time" class="xref page">observability.adoc#observability-metrics-http-client-data-sent-time</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.http.client.response.time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total time for the request/response
+See <a href="observability.html#observability-metrics-http-client-response-time" class="xref page">observability.adoc#observability-metrics-http-client-response-time</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>These additional metrics are also available:</p>
+</div>
+<div class="paragraph">
+<p>Pooled <code>ConnectionProvider</code> metrics</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">metric name</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.connection.provider.total.connections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of all connections, active or idle.
+See <a href="#observability-metrics-total-connections">[observability-metrics-total-connections]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.connection.provider.active.connections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of the connections that have been successfully acquired and are in active use.
+See <a href="#observability-metrics-active-connections">[observability-metrics-active-connections]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.connection.provider.max.connections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of active connections that are allowed.
+See <a href="#observability-metrics-max-connections">[observability-metrics-max-connections]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.connection.provider.idle.connections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of the idle connections.
+See <a href="#observability-metrics-idle-connections">[observability-metrics-idle-connections]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.connection.provider.pending.connections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of requests that are waiting for a connection.
+See <a href="#observability-metrics-pending-connections">[observability-metrics-pending-connections]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.connection.provider.max.pending.connections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number of requests that will be queued while waiting for a ready connection.
+See <a href="#observability-metrics-max-pending-connections">[observability-metrics-max-pending-connections]</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following table provides information for the HTTP client metrics when it is configured to serve <code>HTTP/2</code> traffic:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">metric name</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.connection.provider.active.streams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of the active HTTP/2 streams.
+See <a href="observability.html#observability-metrics-active-streams" class="xref page">observability.adoc#observability-metrics-active-streams</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.connection.provider.pending.streams</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of requests that are waiting for opening HTTP/2 stream.
+See <a href="observability.html#observability-metrics-pending-streams" class="xref page">observability.adoc#observability-metrics-pending-streams</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>ByteBufAllocator</code> metrics</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">metric name</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.used.heap.memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of bytes reserved by heap buffer allocator.
+See <a href="#observability-metrics-used-heap-memory">[observability-metrics-used-heap-memory]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.used.direct.memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of bytes reserved by direct buffer allocator.
+See <a href="#observability-metrics-used-direct-memory">[observability-metrics-used-direct-memory]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.heap.arenas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of heap arenas (when <code>PooledByteBufAllocator</code>).
+See <a href="#observability-metrics-heap-arenas">[observability-metrics-heap-arenas]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.direct.arenas</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of direct arenas (when <code>PooledByteBufAllocator</code>).
+See <a href="#observability-metrics-direct-arenas">[observability-metrics-direct-arenas]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.threadlocal.caches</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of thread local caches (when <code>PooledByteBufAllocator</code>).
+See <a href="#observability-metrics-thread-local-caches">[observability-metrics-thread-local-caches]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.small.cache.size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The size of the small cache (when <code>PooledByteBufAllocator</code>).
+See <a href="#observability-metrics-small-cache-size">[observability-metrics-small-cache-size]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.normal.cache.size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The size of the normal cache (when <code>PooledByteBufAllocator</code>).
+See <a href="#observability-metrics-normal-cache-size">[observability-metrics-normal-cache-size]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.chunk.size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The chunk size for an arena (when <code>PooledByteBufAllocator</code>).
+See <a href="#observability-metrics-chunk-size">[observability-metrics-chunk-size]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.active.heap.memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The actual bytes consumed by in-use buffers allocated from heap buffer pools (when <code>PooledByteBufAllocator</code>).
+See <a href="#observability-metrics-active-heap-memory">[observability-metrics-active-heap-memory]</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.bytebuf.allocator.active.direct.memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The actual bytes consumed by in-use buffers allocated from direct buffer pools (when <code>PooledByteBufAllocator</code>).
+See <a href="#observability-metrics-active-direct-memory">[observability-metrics-active-direct-memory]</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>EventLoop</code> metrics</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">metric name</th>
+<th class="tableblock halign-left valign-top">type</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reactor.netty.eventloop.pending.tasks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gauge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of tasks that are pending for processing on an event loop.
+See <a href="#observability-metrics-pending-tasks">[observability-metrics-pending-tasks]</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following example enables that integration:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/metrics/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.micrometer.core.instrument.Metrics;
+import io.micrometer.core.instrument.config.MeterFilter;
+import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		Metrics.globalRegistry <i class="conum" data-value="1"></i><b>(1)</b>
+		       .config()
+		       .meterFilter(MeterFilter.maximumAllowableTags("reactor.netty.http.client", "URI", 100, MeterFilter.deny()));
+
+		HttpClient client =
+				HttpClient.create()
+				          .metrics(true, s -&gt; {
+				              if (s.startsWith("/stream/")) { <i class="conum" data-value="2"></i><b>(2)</b>
+				                  return "/stream/{n}";
+				              }
+				              else if (s.startsWith("/bytes/")) {
+				                  return "/bytes/{n}";
+				              }
+				              return s;
+				          }); <i class="conum" data-value="3"></i><b>(3)</b>
+
+		client.get()
+		      .uri("https://httpbin.org/stream/2")
+		      .responseContent()
+		      .blockLast();
+
+		client.get()
+		      .uri("https://httpbin.org/bytes/1024")
+		      .responseContent()
+		      .blockLast();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Applies upper limit for the meters with <code>URI</code> tag</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Templated URIs will be used as a URI tag value when possible</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Enables the built-in integration with Micrometer</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In order to avoid a memory and CPU overhead of the enabled metrics, it is important to convert the real URIs to templated URIs when possible.
+Without a conversion to a template-like form, each distinct URI leads to the creation of a distinct tag, which takes a lot of memory for the metrics.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Always apply an upper limit for the meters with URI tags. Configuring an upper limit on the number of meters can help in cases when the real URIs cannot be templated.
+You can find more information at <a href="https://micrometer.io/docs/concepts#_denyaccept_meters"><code>maximumAllowableTags</code></a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When HTTP client metrics are needed for an integration with a system other than <code>Micrometer</code> or you want
+to provide your own integration with <code>Micrometer</code>, you can provide your own metrics recorder, as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/metrics/custom/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+import reactor.netty.http.client.HttpClientMetricsRecorder;
+
+import java.net.SocketAddress;
+import java.time.Duration;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .metrics(true, CustomHttpClientMetricsRecorder::new); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		client.get()
+		      .uri("https://httpbin.org/stream/2")
+		      .response()
+		      .block();
+	}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Enables HTTP client metrics and provides <a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/http/client/HttpClientMetricsRecorder.html"><code>HttpClientMetricsRecorder</code></a> implementation.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tracing"><a class="anchor" href="#tracing"></a>13. Tracing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The HTTP client supports built-in integration with <a href="https://micrometer.io/docs/tracing"><code>Micrometer Tracing</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>The following table provides information for the HTTP client spans:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">contextual name</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP &lt;HTTP METHOD&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Information and total time for the request.
+See <a href="observability.html#observability-spans-http-client-response-span" class="xref page">observability.adoc#observability-spans-http-client-response-span</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hostname resolution</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Information and time spent for resolving the address.
+See <a href="observability.html#observability-spans-hostname-resolution-span" class="xref page">observability.adoc#observability-spans-hostname-resolution-span</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">connect</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Information and time spent for connecting to the remote address.
+See <a href="observability.html#observability-spans-connect-span" class="xref page">observability.adoc#observability-spans-connect-span</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tls handshake</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Information and time spent for TLS handshake.
+See <a href="observability.html#observability-spans-tls-handshake-span" class="xref page">observability.adoc#observability-spans-tls-handshake-span</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following example enables that integration. This concrete example uses <code>Brave</code> and reports the information to <code>Zipkin</code>.
+See the <a href="https://micrometer.io/docs/tracing#_micrometer_tracing_opentelemetry_setup"><code>Micrometer Tracing</code></a> documentation for <code>OpenTelemetry</code> setup.</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/tracing/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import brave.Tracing;
+import brave.handler.SpanHandler;
+import brave.propagation.StrictCurrentTraceContext;
+import brave.sampler.Sampler;
+import io.micrometer.tracing.CurrentTraceContext;
+import io.micrometer.tracing.Tracer;
+import io.micrometer.tracing.brave.bridge.BraveBaggageManager;
+import io.micrometer.tracing.brave.bridge.BraveCurrentTraceContext;
+import io.micrometer.tracing.brave.bridge.BravePropagator;
+import io.micrometer.tracing.brave.bridge.BraveTracer;
+import io.micrometer.tracing.propagation.Propagator;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.http.observability.ReactorNettyPropagatingSenderTracingObservationHandler;
+import reactor.netty.observability.ReactorNettyTracingObservationHandler;
+import zipkin2.reporter.AsyncReporter;
+import zipkin2.reporter.brave.ZipkinSpanHandler;
+import zipkin2.reporter.urlconnection.URLConnectionSender;
+
+import static reactor.netty.Metrics.OBSERVATION_REGISTRY;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		init(); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		HttpClient client =
+				HttpClient.create()
+				          .metrics(true, s -&gt; {
+				              if (s.startsWith("/stream/")) { <i class="conum" data-value="2"></i><b>(2)</b>
+				                  return "/stream/{n}";
+				              }
+				              return s;
+				          }); <i class="conum" data-value="3"></i><b>(3)</b>
+
+		client.get()
+		      .uri("https://httpbin.org/stream/3")
+		      .responseContent()
+		      .blockLast();
+	}
+
+	/**
+	 * This setup is based on
+	 * &lt;a href="https://micrometer.io/docs/tracing#_micrometer_tracing_brave_setup"&gt;Micrometer Tracing Brave Setup&lt;/a&gt;.
+	 */
+	static void init() {
+		SpanHandler spanHandler = ZipkinSpanHandler
+				.create(AsyncReporter.create(URLConnectionSender.create("http://localhost:9411/api/v2/spans")));
+
+		StrictCurrentTraceContext braveCurrentTraceContext = StrictCurrentTraceContext.create();
+
+		CurrentTraceContext bridgeContext = new BraveCurrentTraceContext(braveCurrentTraceContext);
+
+		Tracing tracing =
+				Tracing.newBuilder()
+				       .currentTraceContext(braveCurrentTraceContext)
+				       .supportsJoin(false)
+				       .traceId128Bit(true)
+				       .sampler(Sampler.ALWAYS_SAMPLE)
+				       .addSpanHandler(spanHandler)
+				       .localServiceName("reactor-netty-examples")
+				       .build();
+
+		brave.Tracer braveTracer = tracing.tracer();
+
+		Tracer tracer = new BraveTracer(braveTracer, bridgeContext, new BraveBaggageManager());
+
+		Propagator propagator = new BravePropagator(tracing);
+
+		OBSERVATION_REGISTRY.observationConfig()
+		                    .observationHandler(new ReactorNettyPropagatingSenderTracingObservationHandler(tracer, propagator))
+		                    .observationHandler(new ReactorNettyTracingObservationHandler(tracer));
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Initializes Brave, Zipkin, and the Observation registry.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Templated URIs are used as an URI tag value when possible.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Enables the built-in integration with Micrometer.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The result in <code>Zipkin</code> looks like:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/http-client-tracing.png" alt="http client tracing">
+</div>
+</div>
+<div class="sect2">
+<h3 id="access-current-observation"><a class="anchor" href="#access-current-observation"></a>13.1. Access Current Observation</h3>
+<div class="paragraph">
+<p>Project Micrometer provides <a href="https://micrometer.io/docs/contextPropagation"><code>a library</code></a> that assists with context propagation across
+different types of context mechanisms such as <code>ThreadLocal</code>, <code>Reactor Context</code> and others.</p>
+</div>
+<div class="paragraph">
+<p>The following example shows how to use this library in a custom <code>ChannelHandler</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/tracing/custom/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import brave.Tracing;
+import brave.handler.SpanHandler;
+import brave.propagation.StrictCurrentTraceContext;
+import brave.sampler.Sampler;
+import io.micrometer.context.ContextSnapshot;
+import io.micrometer.tracing.CurrentTraceContext;
+import io.micrometer.tracing.Tracer;
+import io.micrometer.tracing.brave.bridge.BraveBaggageManager;
+import io.micrometer.tracing.brave.bridge.BraveCurrentTraceContext;
+import io.micrometer.tracing.brave.bridge.BravePropagator;
+import io.micrometer.tracing.brave.bridge.BraveTracer;
+import io.micrometer.tracing.propagation.Propagator;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelOutboundHandlerAdapter;
+import io.netty.channel.ChannelPromise;
+import reactor.netty.NettyPipeline;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.http.observability.ReactorNettyPropagatingSenderTracingObservationHandler;
+import reactor.netty.observability.ReactorNettyTracingObservationHandler;
+import zipkin2.reporter.AsyncReporter;
+import zipkin2.reporter.brave.ZipkinSpanHandler;
+import zipkin2.reporter.urlconnection.URLConnectionSender;
+
+import static reactor.netty.Metrics.OBSERVATION_REGISTRY;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		init(); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		HttpClient client =
+				HttpClient.create()
+				          .metrics(true, s -&gt; {
+				              if (s.startsWith("/stream/")) { <i class="conum" data-value="2"></i><b>(2)</b>
+				                  return "/stream/{n}";
+				              }
+				              return s;
+				          }) <i class="conum" data-value="3"></i><b>(3)</b>
+				          .doOnConnected(conn -&gt; conn.channel().pipeline().addAfter(NettyPipeline.HttpCodec,
+				                  "custom-channel-handler", CustomChannelOutboundHandler.INSTANCE)); <i class="conum" data-value="4"></i><b>(4)</b>
+
+		client.get()
+		      .uri("https://httpbin.org/stream/3")
+		      .responseContent()
+		      .blockLast();
+	}
+
+	static final class CustomChannelOutboundHandler extends ChannelOutboundHandlerAdapter {
+
+		static final ChannelHandler INSTANCE = new CustomChannelOutboundHandler();
+
+		@Override
+		public boolean isSharable() {
+			return true;
+		}
+
+		@Override
+		public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
+			try (ContextSnapshot.Scope scope = ContextSnapshot.setAllThreadLocalsFrom(ctx.channel())) {
+				System.out.println("Current Observation in Scope: " + OBSERVATION_REGISTRY.getCurrentObservation());
+				//"FutureReturnValueIgnored" this is deliberate
+				ctx.write(msg, promise);
+			}
+			System.out.println("Current Observation: " + OBSERVATION_REGISTRY.getCurrentObservation());
+		}
+	}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Initializes Brave, Zipkin, and the Observation registry.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Templated URIs are used as an URI tag value when possible.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Enables the built-in integration with Micrometer.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Custom <code>ChannelHandler</code> that uses context propagation library. This concrete example overrides only
+<code>ChannelOutboundHandlerAdapter#write</code>, if it is needed, the same logic can be used for the rest of the methods.
+Also, this concrete example sets all <code>ThreadLocal</code> values for which there is a value in the given <code>Channel</code>,
+if another behaviour is needed please check <a href="https://micrometer.io/docs/contextPropagation"><code>context propagation library API</code></a>.
+For example, you may want to set only some of the <code>ThreadLocal</code> values.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When you enable Reactor Netty tracing within a framework, you may need to let Reactor Netty use the <code>ObservationRegistry</code> created by this framework.
+For this purpose you need to invoke <a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/Metrics.html#observationRegistry-io.micrometer.observation.ObservationRegistry-"><code>reactor.netty.Metrics#observationRegistry</code></a>.
+You may also need to configure the Reactor Netty <code>ObservationHandlers</code> using the API provided by the framework.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="unix-domain-sockets"><a class="anchor" href="#unix-domain-sockets"></a>14. Unix Domain Sockets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>HTTP</code> client supports Unix Domain Sockets (UDS) when native transport is in use.</p>
+</div>
+<div class="paragraph">
+<p>The following example shows how to use UDS support:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/uds/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.channel.unix.DomainSocketAddress;
+import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .remoteAddress(() -&gt; new DomainSocketAddress("/tmp/test.sock")); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		client.get()
+		      .uri("/")
+		      .response()
+		      .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Specifies <code>DomainSocketAddress</code> that will be used</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="host-name-resolution"><a class="anchor" href="#host-name-resolution"></a>15. Host Name Resolution</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, the <code>HttpClient</code> uses Netty&#8217;s domain name lookup mechanism that resolves a domain name asynchronously.
+This is as an alternative of the JVM&#8217;s built-in blocking resolver.</p>
+</div>
+<div class="paragraph">
+<p>When you need to change the default settings, you can configure the <code>HttpClient</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/resolver/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+import java.time.Duration;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .resolver(spec -&gt; spec.queryTimeout(Duration.ofMillis(500))); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The timeout of each DNS query performed by this resolver will be 500ms.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following listing shows the available configurations.
+Additionally, <a href="https://tools.ietf.org/html/rfc7766"><code>TCP fallback</code></a> is enabled by default.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Configuration name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cacheMaxTimeToLive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The max time to live of the cached DNS resource records (resolution: seconds).
+If the time to live of the DNS resource record returned by the DNS server is greater
+than this max time to live, this resolver ignores the time to live from
+the DNS server and uses this max time to live.
+Default to <code>Integer.MAX_VALUE</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cacheMinTimeToLive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The min time to live of the cached DNS resource records (resolution: seconds).
+If the time to live of the DNS resource record returned by the DNS server is less
+than this min time to live, this resolver ignores the time to live from
+the DNS server and uses this min time to live.
+Default: 0.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cacheNegativeTimeToLive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The time to live of the cache for the failed DNS queries (resolution: seconds). Default: 0.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>completeOncePreferredResolved</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When this setting is enabled, the resolver notifies as soon as all queries for the preferred address type are complete.
+When this setting is disabled, the resolver notifies when all possible address types are complete.
+This configuration is applicable for <code>DnsNameResolver#resolveAll(String)</code>. By default, this setting is enabled.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dnsAddressResolverGroupProvider</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets a custom function to create a <code>DnsAddressResolverGroup</code> given a <code>DnsNameResolverBuilder</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>disableOptionalRecord</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disables the automatic inclusion of an optional record that tries to give a hint to the remote DNS server about
+how much data the resolver can read per response. By default, this setting is enabled.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>disableRecursionDesired</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies whether this resolver has to send a DNS query with the recursion desired (RD) flag set.
+By default, this setting is enabled.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hostsFileEntriesResolver</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets a custom <a href="https://netty.io/4.1/api/io/netty/resolver/HostsFileEntriesResolver.html"><code>HostsFileEntriesResolver</code></a> to be used for hosts file entries.
+Default: <a href="https://netty.io/4.1/api/io/netty/resolver/DefaultHostsFileEntriesResolver.html"><code>DefaultHostsFileEntriesResolver</code></a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxPayloadSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the capacity of the datagram packet buffer (in bytes). Default: 4096.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxQueriesPerResolve</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the maximum allowed number of DNS queries to send when resolving a host name. Default: 16.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ndots</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the number of dots that must appear in a name before an initial absolute query is made.
+Default: -1 (to determine the value from the OS on Unix or use a value of 1 otherwise).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>queryTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the timeout of each DNS query performed by this resolver (resolution: milliseconds). Default: 5000.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resolvedAddressTypes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of the protocol families of the resolved address.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resolveCache</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The cache to use to store resolved DNS entries.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bindAddressSupplier</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The supplier of the local address to bind to.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roundRobinSelection</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enables an
+<a href="https://netty.io/4.1/api/io/netty/resolver/AddressResolverGroup.html"><code>AddressResolverGroup</code></a> of
+<a href="https://netty.io/4.1/api/io/netty/resolver/dns/DnsNameResolver.html"><code>DnsNameResolver</code></a> that supports random selection
+of destination addresses if multiple are provided by the nameserver.
+See <a href="https://netty.io/4.1/api/io/netty/resolver/dns/RoundRobinDnsAddressResolverGroup.html"><code>RoundRobinDnsAddressResolverGroup</code></a>.
+Default: <a href="https://netty.io/4.1/api/io/netty/resolver/dns/DnsAddressResolverGroup.html"><code>DnsAddressResolverGroup</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>runOn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performs the communication with the DNS servers on the given
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/resources/LoopResources.html"><code>LoopResources</code></a>. By default, the LoopResources
+specified on the client level are used.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>searchDomains</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The list of search domains of the resolver.
+By default, the effective search domain list is populated by using the system DNS search domains.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>trace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A specific logger and log level to be used by this resolver when generating detailed trace
+information in case of resolution failure.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Sometimes, you may want to switch to the JVM built-in resolver. To do so, you can configure the <code>HttpClient</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/resolver/custom/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.resolver.DefaultAddressResolverGroup;
+import reactor.netty.http.client.HttpClient;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .resolver(DefaultAddressResolverGroup.INSTANCE); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Sets the JVM built-in resolver.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="timeout-configuration"><a class="anchor" href="#timeout-configuration"></a>16. Timeout Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes various timeout configuration options that can be used in <code>HttpClient</code>.
+Configuring a proper timeout may improve or solve issues in the communication process.
+The configuration options can be grouped as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#connection-pool-timeout">Connection Pool Timeout</a></p>
+</li>
+<li>
+<p><a href="#http-client-timeout">HttpClient Timeout</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#response-timeout">Response Timeout</a></p>
+</li>
+<li>
+<p><a href="http-server.html#http-server-connection-timeout" class="xref page">Connection Timeout</a></p>
+</li>
+<li>
+<p><a href="#ssl-tls-timeout">SSL/TLS Timeout</a></p>
+</li>
+<li>
+<p><a href="#proxy-timeout">Proxy Timeout</a></p>
+</li>
+<li>
+<p><a href="#dns-timeout">Host Name Resolution Timeout</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="connection-pool-timeout"><a class="anchor" href="#connection-pool-timeout"></a>16.1. Connection Pool Timeout</h3>
+<div class="paragraph">
+<p>By default, <code>HttpClient</code> uses a connection pool. When a request is completed successfully and if the connection is not scheduled for closing,
+the connection is returned to the connection pool and can thus be reused for processing another request. The connection may
+be reused immediately for another request or may stay idle in the connection pool for some time.</p>
+</div>
+<div class="paragraph">
+<p>The following list describes the available timeout configuration options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>maxIdleTime</code> - The maximum time (resolution: ms) that this connection stays idle in the connection pool. By default,
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/resources/ConnectionProvider.ConnectionPoolSpec.html#maxIdleTime-java.time.Duration-"><code>maxIdleTime</code></a> is not specified.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When you configure <code>maxIdleTime</code>, you should consider the idle timeout configuration on the target server.
+Choose a configuration that is equal to or less than the one on the target server. By doing so, you can reduce the I/O
+issues caused by a connection closed by the target server.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>maxLifeTime</code> - The maximum time (resolution: ms) that this connection stays alive. By default,
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/resources/ConnectionProvider.ConnectionPoolSpec.html#maxLifeTime-java.time.Duration-"><code>maxLifeTime</code></a> is not specified.</p>
+</li>
+<li>
+<p><code>pendingAcquireTimeout</code> - The maximum time (resolution: ms) after which a pending acquire operation must complete, or
+a <code>PoolAcquireTimeoutException</code> is thrown. Default: 45s.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>By default, these timeouts are checked on connection <code>release</code> or <code>acquire</code> operations and, if some timeout is reached, the connection is closed and removed from the connection pool.
+However, you can also configure the connection pool, by setting <code>evictInBackground</code>, to perform periodic checks on connections.</p>
+</div>
+<div class="paragraph">
+<p>To customize the default settings, you can configure <code>HttpClient</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/pool/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
+
+import java.time.Duration;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		ConnectionProvider provider =
+				ConnectionProvider.builder("custom")
+				                  .maxConnections(50)
+				                  .maxIdleTime(Duration.ofSeconds(20))           <i class="conum" data-value="1"></i><b>(1)</b>
+				                  .maxLifeTime(Duration.ofSeconds(60))           <i class="conum" data-value="2"></i><b>(2)</b>
+				                  .pendingAcquireTimeout(Duration.ofSeconds(60)) <i class="conum" data-value="3"></i><b>(3)</b>
+				                  .evictInBackground(Duration.ofSeconds(120))    <i class="conum" data-value="4"></i><b>(4)</b>
+				                  .build();
+
+		HttpClient client = HttpClient.create(provider);
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+
+		provider.disposeLater()
+		        .block();
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the maximum time for a connection to stay idle to 20 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Configures the maximum time for a connection to stay alive to 60 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Configures the maximum time for the pending acquire operation to 60 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Every two minutes, the connection pool is regularly checked for connections that are applicable for removal.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="http-client-timeout"><a class="anchor" href="#http-client-timeout"></a>16.2. HttpClient Timeout</h3>
+<div class="paragraph">
+<p>This section provides information for the various timeout configuration options at the <code>HttpClient</code> level.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Reactor Netty uses Reactor Core as its Reactive Streams implementation, and you may want to use the <code>timeout</code> operator that <code>Mono</code> and <code>Flux</code> provide.
+Keep in mind, however, that it is better to use the more specific timeout configuration options available in Reactor Netty, since they provide more control for a specific purpose and use case.
+By contrast, the <code>timeout</code> operator can only apply to the operation as a whole, from establishing the connection to the remote peer to receiving the response.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="response-timeout"><a class="anchor" href="#response-timeout"></a>16.2.1. Response Timeout</h4>
+<div class="paragraph">
+<p><code>HttpClient</code> provides an API for configuring a default response timeout for all requests. You can change this default response timeout
+through an API for a specific request. By default,
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/http/client/HttpClient.html#responseTimeout-java.time.Duration-"><code>responseTimeout</code></a> is not specified.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It is always a good practice to configure a response timeout.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To customize the default settings, you can configure <code>HttpClient</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/read/timeout/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
+
+import java.time.Duration;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .responseTimeout(Duration.ofSeconds(1));    <i class="conum" data-value="1"></i><b>(1)</b>
+
+		String response1 =
+				client.post()
+				      .uri("https://example.com/")
+				      .send((req, out) -&gt; {
+				          req.responseTimeout(Duration.ofSeconds(2)); <i class="conum" data-value="2"></i><b>(2)</b>
+				          return out.sendString(Mono.just("body1"));
+				      })
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response1);
+
+		String response2 =
+				client.post()
+				      .uri("https://example.com/")
+				      .send((req, out) -&gt; out.sendString(Mono.just("body2")))
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response2);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the default response timeout to 1 second.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Configures a response timeout for a specific request to 2 seconds.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="connection-timeout"><a class="anchor" href="#connection-timeout"></a>16.2.2. Connection Timeout</h4>
+<div class="paragraph">
+<p>The following listing shows all available connection timeout configuration options, but some of them may apply only to a specific transport.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>CONNECT_TIMEOUT_MILLIS</code> - If the connection establishment attempt to the remote peer does not finish within the configured connect timeout (resolution: ms),
+the connection establishment attempt fails. Default: 30s.</p>
+</li>
+<li>
+<p><code>SO_KEEPALIVE</code> - When the connection stays idle for some time (the time is implementation dependent, but the default is typically two hours),
+TCP automatically sends a <code>keepalive</code> probe to the remote peer.
+By default, <a href="https://docs.oracle.com/javase/8/docs/api/java/net/SocketOptions.html#SO_KEEPALIVE"><code>SO_KEEPALIVE</code></a> is not enabled.
+When you run with <code>Epoll</code>/<code>NIO</code> (<a href="https://bugs.openjdk.java.net/browse/JDK-8194298">since <strong>Java 11</strong> on <strong>Mac or Linux</strong></a>) transport, you may also configure:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>TCP_KEEPIDLE</code> - The maximum time (resolution: seconds) that this connection stays idle before TCP starts sending <code>keepalive</code> probes,
+if <code>SO_KEEPALIVE</code> has been set. The maximum time is implementation dependent, but the default is typically two hours.</p>
+</li>
+<li>
+<p><code>TCP_KEEPINTVL</code> (Epoll)/<code>TCP_KEEPINTERVAL</code> (NIO) - The time (resolution: seconds) between individual <code>keepalive</code> probes.</p>
+</li>
+<li>
+<p><code>TCP_KEEPCNT</code> (Epoll)/<code>TCP_KEEPCOUNT</code> (NIO) - The maximum number of <code>keepalive</code> probes TCP should send before dropping the connection.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Sometimes, between the client and the server, you may have a network component that silently drops the idle connections without sending a response.
+From the Reactor Netty point of view, in this use case, the remote peer just does not respond.
+To be able to handle such a use case you may consider configuring
+<a href="https://docs.oracle.com/javase/8/docs/technotes/guides/net/socketOpt.html"><code>SO_KEEPALIVE</code></a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To customize the default settings, you can configure <code>HttpClient</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/channeloptions/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import io.netty.channel.ChannelOption;
+import io.netty.channel.epoll.EpollChannelOption;
+</span><span class="fold-block">//import io.netty.channel.socket.nio.NioChannelOption;
+//import jdk.net.ExtendedSocketOptions;
+</span><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+import java.net.InetSocketAddress;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .bindAddress(() -&gt; new InetSocketAddress("host", 1234))
+				          .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000) <i class="conum" data-value="1"></i><b>(1)</b>
+				          .option(ChannelOption.SO_KEEPALIVE, true)            <i class="conum" data-value="2"></i><b>(2)</b>
+				          // The options below are available only when NIO transport (Java 11) is used
+				          // on Mac or Linux (Java does not currently support these extended options on Windows)
+				          // https://bugs.openjdk.java.net/browse/JDK-8194298
+				          //.option(NioChannelOption.of(ExtendedSocketOptions.TCP_KEEPIDLE), 300)
+				          //.option(NioChannelOption.of(ExtendedSocketOptions.TCP_KEEPINTERVAL), 60)
+				          //.option(NioChannelOption.of(ExtendedSocketOptions.TCP_KEEPCOUNT), 8);
+				          // The options below are available only when Epoll transport is used
+				          .option(EpollChannelOption.TCP_KEEPIDLE, 300)        <i class="conum" data-value="3"></i><b>(3)</b>
+				          .option(EpollChannelOption.TCP_KEEPINTVL, 60)        <i class="conum" data-value="4"></i><b>(4)</b>
+				          .option(EpollChannelOption.TCP_KEEPCNT, 8);          <i class="conum" data-value="5"></i><b>(5)</b>
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the connection establishment timeout to 10 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Enables TCP <code>keepalive</code>. This means that TCP starts sending <code>keepalive</code> probes when a connection is idle for some time.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The connection needs to remain idle for 5 minutes before TCP starts sending <code>keepalive</code> probes.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Configures the time between individual <code>keepalive</code> probes to 1 minute.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Configures the maximum number of TCP <code>keepalive</code> probes to 8.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ssl-tls-timeout"><a class="anchor" href="#ssl-tls-timeout"></a>16.2.3. SSL/TLS Timeout</h4>
+<div class="paragraph">
+<p><code>HttpClient</code> supports the SSL/TLS functionality provided by Netty.</p>
+</div>
+<div class="paragraph">
+<p>The following list describes the available timeout configuration options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>handshakeTimeout</code> - Use this option to configure the SSL handshake timeout (resolution: ms). Default: 10s.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You should consider increasing the SSL handshake timeout when expecting slow network connections.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>closeNotifyFlushTimeout</code> - Use this option to configure the SSL <code>close_notify</code> flush timeout (resolution: ms). Default: 3s.</p>
+</li>
+<li>
+<p><code>closeNotifyReadTimeout</code> - Use this option to configure the SSL <code>close_notify</code> read timeout (resolution: ms). Default: 0s.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To customize the default settings, you can configure <code>HttpClient</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/security/custom/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.Http11SslContextSpec;
+import reactor.netty.http.client.HttpClient;
+
+import java.time.Duration;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		Http11SslContextSpec http11SslContextSpec = Http11SslContextSpec.forClient();
+
+		HttpClient client =
+				HttpClient.create()
+				          .secure(spec -&gt; spec.sslContext(http11SslContextSpec)
+				                              .handshakeTimeout(Duration.ofSeconds(30))         <i class="conum" data-value="1"></i><b>(1)</b>
+				                              .closeNotifyFlushTimeout(Duration.ofSeconds(10))  <i class="conum" data-value="2"></i><b>(2)</b>
+				                              .closeNotifyReadTimeout(Duration.ofSeconds(10))); <i class="conum" data-value="3"></i><b>(3)</b>
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the SSL handshake timeout to 30 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Configures the SSL <code>close_notify</code> flush timeout to 10 seconds.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Configures the SSL <code>close_notify</code> read timeout to 10 seconds.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="proxy-timeout"><a class="anchor" href="#proxy-timeout"></a>16.2.4. Proxy Timeout</h4>
+<div class="paragraph">
+<p><code>HttpClient</code> supports the proxy functionality provided by Netty and provides a way to specify the
+<a href="https://projectreactor.io/docs/netty/1.2.0-SNAPSHOT/api/reactor/netty/transport/ProxyProvider.Builder.html#connectTimeoutMillis-long-">connection establishment timeout</a>.
+If the connection establishment attempt to the remote peer does not finish within the timeout,
+the connection establishment attempt fails. Default: 10s.</p>
+</div>
+<div class="paragraph">
+<p>To customize the default settings, you can configure <code>HttpClient</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/proxy/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+import reactor.netty.transport.ProxyProvider;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .proxy(spec -&gt; spec.type(ProxyProvider.Proxy.HTTP)
+				                             .host("proxy")
+				                             .port(8080)
+				                             .nonProxyHosts("localhost")
+				                             .connectTimeoutMillis(20_000)); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configures the connection establishment timeout to 20 seconds.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="dns-timeout"><a class="anchor" href="#dns-timeout"></a>16.2.5. Host Name Resolution Timeout</h4>
+<div class="paragraph">
+<p>By default, the <code>HttpClient</code> uses Netty’s domain name lookup mechanism to resolve a domain name asynchronously.</p>
+</div>
+<div class="paragraph">
+<p>The following list describes the available timeout configuration options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cacheMaxTimeToLive</code> - The maximum time to live of the cached DNS resource records (resolution: seconds).
+If the time to live of the DNS resource record returned by the DNS server is greater
+than this maximum time to live, this resolver ignores the time to live from
+the DNS server and uses this maximum time to live. Default: <code>Integer.MAX_VALUE</code>.</p>
+</li>
+<li>
+<p><code>cacheMinTimeToLive</code> - The minimum time to live of the cached DNS resource records (resolution: seconds).
+If the time to live of the DNS resource record returned by the DNS server is less
+than this minimum time to live, this resolver ignores the time to live from
+the DNS server and uses this minimum time to live. Default: 0s.</p>
+</li>
+<li>
+<p><code>cacheNegativeTimeToLive</code> - The time to live of the cache for the failed DNS queries (resolution: seconds). Default: 0s.</p>
+</li>
+<li>
+<p><code>queryTimeout</code> - Sets the timeout of each DNS query performed by this resolver (resolution: milliseconds). Default: 5s.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To customize the default settings, you can configure <code>HttpClient</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">example$reactor-netty-examples/src/main/java/reactor/netty/examples/documentation/http/client/resolver/Application.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><span class="fold-block is-hidden-folded">import reactor.netty.http.client.HttpClient;
+
+import java.time.Duration;
+
+</span><span class="fold-block">public class Application {
+
+	public static void main(String[] args) {
+		HttpClient client =
+				HttpClient.create()
+				          .resolver(spec -&gt; spec.queryTimeout(Duration.ofMillis(500))); <i class="conum" data-value="1"></i><b>(1)</b>
+
+		String response =
+				client.get()
+				      .uri("https://example.com/")
+				      .responseContent()
+				      .aggregate()
+				      .asString()
+				      .block();
+
+		System.out.println("Response " + response);
+	}
+}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The timeout of each DNS query performed by this resolver will be 500ms.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="http-server.html">HTTP Server</a></span>
+  <span class="next"><a href="udp-server.html">UDP Server</a></span>
+</nav>
+</article>
+  </div>
+</main>
+<div class="modal micromodal-slide" id="modal-versions" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true">
+            <main class="modal__content" id="modal-versions-content">
+              <button data-micromodal-close class="modal-versions-close">
+                <svg width="28px" height="28px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><style>.cls-1h{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}</style></defs><title/><g id="cross"><line class="cls-1h" x1="7" x2="25" y1="7" y2="25"/><line class="cls-1h" x1="7" x2="25" y1="25" y2="7"/></g></svg>
+              </button>
+              <div class="colset">
+                <div class="col-left">
+                  <ul class="nav-versions">
+                    <li class="component is-current">
+                      <a class="title" href="index.html">Reactor Netty Reference Guide</a>
+                      <ul class="versions">
+                        <li class="version is-current is-latest">
+                          <a href="index.html">
+                            1.2.0-SNAPSHOT<span class="current">current</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-right">
+                  <ul class="projects">
+  <li>
+    Related Spring Documentation
+    <ul class="projects-list">
+        <li>
+<a href="https://docs.spring.io/spring-framework/reference/">
+  Spring Framework
+</a>
+</li>
+        <li>
+<a class="anchor"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+  Spring Cloud
+<ul>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-build/reference/">
+  Spring Cloud Build
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-bus/reference/">
+  Spring Cloud Bus
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-circuitbreaker/reference/">
+  Spring Cloud Circuit Breaker
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-commons/reference/">
+  Spring Cloud Commons
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-config/reference/">
+  Spring Cloud Config
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-consul/reference/">
+  Spring Cloud Consul
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-contract/reference/">
+  Spring Cloud Contract
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-function/reference/">
+  Spring Cloud Function
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-gateway/reference/">
+  Spring Cloud Gateway
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-kubernetes/reference/">
+  Spring Cloud Kubernetes
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-netflix/reference/">
+  Spring Cloud Netflix
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-openfeign/reference/">
+  Spring Cloud OpenFeign
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-stream/reference/">
+  Spring Cloud Stream
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-task/reference/">
+  Spring Cloud Task
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-vault/reference/">
+  Spring Cloud Vault
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-zookeeper/reference/">
+  Spring Cloud Zookeeper
+</a>
+</li>
+</ul>
+</li>
+        <li>
+<a class="anchor"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+  Spring Data
+<ul>
+    <li>
+<a href="https://docs.spring.io/spring-data/cassandra/reference/">
+  Spring Data Cassandra
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/commons/reference/">
+  Spring Data Commons
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/couchbase/reference/">
+  Spring Data Couchbase
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/elasticsearch/reference/">
+  Spring Data Elasticsearch
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/jpa/reference/">
+  Spring Data JPA
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/keyvalue/reference/">
+  Spring Data KeyValue
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/ldap/reference/">
+  Spring Data LDAP
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/mongodb/reference/">
+  Spring Data MongoDB
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/neo4j/reference/">
+  Spring Data Neo4j
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/redis/reference/">
+  Spring Data Redis
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/relational/reference/">
+  Spring Data JDBC &amp; R2DBC
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/rest/reference/">
+  Spring Data REST
+</a>
+</li>
+</ul>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-integration/reference/">
+  Spring Integration
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-batch/reference/">
+  Spring Batch
+</a>
+</li>
+        <li>
+<a class="anchor"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+<a href="https://docs.spring.io/spring-security/reference/">
+  Spring Security
+</a>
+<ul>
+    <li>
+<a href="https://docs.spring.io/spring-authorization-server/reference/">
+  Spring Authorization Server
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-ldap/reference/">
+  Spring LDAP
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-security-kerberos/reference/">
+  Spring Security Kerberos
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-session/reference/">
+  Spring Session
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-vault/reference/">
+  Spring Vault
+</a>
+</li>
+</ul>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-ai/reference/">
+  Spring AI
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-amqp/reference/">
+  Spring AMQP
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-cli/reference/">
+  Spring CLI
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-graphql/reference/">
+  Spring GraphQL
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-kafka/reference/">
+  Spring for Apache Kafka
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-modulith/reference/">
+  Spring Modulith
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-pulsar/reference/">
+  Spring for Apache Pulsar
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-shell/reference/">
+  Spring Shell
+</a>
+</li>
+    </ul>
+  </li
+  <li><a href="spring-projects.html">All Docs...</a></li>
+</ul>
+                </div>
+              </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+</div>
+<footer class="footer flex">
+    <div id="spring-links flex">
+        <img id="reactorlogo-footer" src="./_/img/reactor-logo.svg" alt="Reactor">
+        <img id="reactorlogo-footer-dark" src="./_/img/reactor-logo-dark.svg" alt="Reactor">
+        <p class="smallest antialiased">Copyright © 2005 - <script>var d = new Date();
+        document.write(d.getFullYear());</script> Broadcom. All Rights Reserved. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.<br /><a href="https://www.vmware.com/help/legal.html">Terms of Use</a> • <a href="https://www.vmware.com/help/privacy.html" rel="noopener noreferrer">Privacy</a> • <a href="https://spring.io/trademarks">Trademark Guidelines</a> <span id="thank-you-mobile">• <a href="https://spring.io/thank-you">Thank you</a></span> • <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> • <a class="ot-sdk-show-settings">Cookie Settings</a> <span id="teconsent"></span></p>
+        <p class="smallest antialiased has-gray-text">Apache®, Apache Tomcat®, Apache Kafka®, Apache Cassandra&trade;, and Apache Geode&trade; are trademarks or registered trademarks of the Apache Software Foundation in the United States and/or other countries. Java&trade;, Java&trade; SE, Java&trade; EE, and OpenJDK&trade; are trademarks of Oracle and/or its affiliates. Kubernetes® is a registered trademark of the Linux Foundation in the United States and other countries. Linux® is the registered trademark of Linus Torvalds in the United States and other countries. Windows® and Microsoft® Azure are registered trademarks of Microsoft Corporation. “AWS” and “Amazon Web Services” are trademarks or registered trademarks of Amazon.com Inc. or its affiliates. All other trademarks and copyrights are property of their respective owners and are only mentioned for informative purposes. Other names may be trademarks of their respective owners.</p>
+    </div>
+    <div id="social-icons" class="flex jc-between">
+        <a href="https://www.youtube.com/user/SpringSourceDev" title="Youtube"><svg id="youtube-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle class="cls-1" cx="20" cy="20" r="20"/><path class="cls-2" d="M30.91,14.53a2.89,2.89,0,0,0-2-2C27.12,12,20,12,20,12s-7.12,0-8.9.47a2.9,2.9,0,0,0-2,2A30.56,30.56,0,0,0,8.63,20a30.44,30.44,0,0,0,.46,5.47,2.89,2.89,0,0,0,2,2C12.9,28,20,28,20,28s7.12,0,8.9-.47a2.87,2.87,0,0,0,2-2A30.56,30.56,0,0,0,31.37,20,28.88,28.88,0,0,0,30.91,14.53ZM17.73,23.41V16.59L23.65,20Z"/></svg></a>
+        <a href="https://github.com/spring-projects" title="Github"><svg id="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.93 75.93"><path class="cls-1" d="M38,0a38,38,0,1,0,38,38A38,38,0,0,0,38,0Z"/></g><path class="cls-2" d="M38,15.59A22.95,22.95,0,0,0,30.71,60.3c1.15.21,1.57-.5,1.57-1.11s0-2,0-3.9c-6.38,1.39-7.73-3.07-7.73-3.07A6.09,6.09,0,0,0,22,48.86c-2.09-1.42.15-1.39.15-1.39a4.81,4.81,0,0,1,3.52,2.36c2,3.5,5.37,2.49,6.67,1.91a4.87,4.87,0,0,1,1.46-3.07c-5.09-.58-10.45-2.55-10.45-11.34a8.84,8.84,0,0,1,2.36-6.15,8.29,8.29,0,0,1,.23-6.07s1.92-.62,6.3,2.35a21.82,21.82,0,0,1,11.49,0c4.38-3,6.3-2.35,6.3-2.35a8.29,8.29,0,0,1,.23,6.07,8.84,8.84,0,0,1,2.36,6.15c0,8.81-5.37,10.75-10.48,11.32a5.46,5.46,0,0,1,1.56,4.25c0,3.07,0,5.54,0,6.29s.42,1.33,1.58,1.1A22.94,22.94,0,0,0,38,15.59Z"/></svg></a>
+        <a href="https://twitter.com/springcentral" title="Twitter"><svg id="twitter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.93 75.93"><circle class="cls-1" cx="37.97" cy="37.97" r="37.97"/><path id="Twitter-2" data-name="Twitter" class="cls-2" d="M55.2,22.73a15.43,15.43,0,0,1-4.88,1.91,7.56,7.56,0,0,0-5.61-2.49A7.78,7.78,0,0,0,37,30a7.56,7.56,0,0,0,.2,1.79,21.63,21.63,0,0,1-15.84-8.23,8,8,0,0,0,2.37,10.52,7.66,7.66,0,0,1-3.48-1v.09A7.84,7.84,0,0,0,26.45,41a7.54,7.54,0,0,1-2,.28A7.64,7.64,0,0,1,23,41.09a7.71,7.71,0,0,0,7.18,5.47,15.21,15.21,0,0,1-9.55,3.37,15.78,15.78,0,0,1-1.83-.11,21.41,21.41,0,0,0,11.78,3.54c14.13,0,21.86-12,21.86-22.42,0-.34,0-.68,0-1a15.67,15.67,0,0,0,3.83-4.08,14.9,14.9,0,0,1-4.41,1.24A7.8,7.8,0,0,0,55.2,22.73Z"/></svg></a>
+    </div>
+</footer>
+<script src="./_/js/vendor/import.js"></script>
+<script src="./_/js/site.js"></script>
+<script async src="./_/js/vendor/highlight.js"></script>
+<script async src="./_/js/vendor/asciidoctor-tabs.js" data-sync-storage-key="docs:preferred-tab"></script>
+
+<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <main class="modal__content" id="modal-1-content">
+                <div id="searchbox"></div>
+                <div id="counter"></div>
+                <div class="search-link-box">
+                    <a class="search-link" href="search.html">Search in all Spring Docs</a>
+                </div>
+                <div class="search-by">
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.algolia.com/" aria-label="Search by Algolia">
+                        <img class="light" width="140" src="./_/img/algolia-light.svg" />
+                        <img class="dark" width="140" src="./_/img/algolia-dark.svg" />
+                    </a>
+                </div>
+                <div id="hits"></div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.17.0/dist/algoliasearch-lite.umd.js" integrity="sha256-Lf9DrpGmcRip6OQzbcL6lnvNmoZNSKpyQX5pMlwatWE=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.54.1/dist/instantsearch.production.min.js" integrity="sha256-xYsZPDeNjYNTBWLvqD2Lxe98hOxcDgOHyMPfz4tVAbk=" crossorigin="anonymous"></script>
+<script async id="search-script" src="./_/js/vendor/search.js" data-app-id="TGS4XRGX3V" data-api-key="da671ceec1f84f80f280884a6a91bde5" data-index-name="reactor" data-stylesheet="./_/css/vendor/search.css" data-page-version="1.2.0" data-page-component="reactor-netty"></script>
+  </body>
+</html>

@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Frequently Asked Questions :: Reactor Netty Reference Guide</title>
+    <meta name="generator" content="Antora 3.2.0-alpha.4">
+    <script>
+!function (theme, navWidth) {
+  if (theme === 'dark') document.documentElement.classList.add('dark-theme')
+  if (navWidth) document.documentElement.style.setProperty('--nav-width', `${navWidth}px`)
+}(localStorage && localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)')?.matches && 'dark'),
+  localStorage && localStorage.getItem('nav-width'))
+    </script>
+    <link rel="stylesheet" href="./_/css/site.css">
+    <link rel="stylesheet" href="./_/css/vendor/search.css">
+    <link rel="stylesheet" href="./_/css/vendor/page-search.css">
+    <link rel="stylesheet" href="./_/css/vendor/asciidoctor-tabs.css">
+
+    <meta name="version" content="1.2.0">
+    <meta name="component" content="reactor-netty">
+    <meta name="latest-version" content="false">
+    <link rel="icon" href="./_/img/favicon.ico" type="image/vnd.microsoft.icon">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://spring.io">
+        <img
+          id="reactorlogo"
+          class="block"
+          src="./_/img/reactor-logo.svg"
+          alt="Reactor"
+        />
+        <img
+          id="reactorlogo-dark"
+          class="block"
+          src="./_/img/reactor-logo-dark.svg"
+          alt="Reactor"
+        />
+      </a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <label class="theme-toggler">
+      <input
+        type="checkbox"
+        type="checkbox"
+        id="switch-theme-checkbox"
+        name="switch-theme-checkbox"
+      />
+      <span class="icon"><svg
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="moon"
+          class="svg-inline--fa fa-moon moon"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 384 512"
+        ><path
+            fill="currentColor"
+            d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"
+          ></path>
+        </svg>
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="fas"
+          data-icon="sun"
+          class="svg-inline--fa fa-sun sun"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+        ><path
+            fill="currentColor"
+            d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"
+          ></path>
+        </svg></span>
+      <span class="text">light</span>
+    </label>
+  </nav>
+</header>
+<script>
+!function (theme) {
+  if (theme === 'dark') {
+    document.getElementById('switch-theme-checkbox').parentElement.classList.add('active')
+  }
+}(localStorage && localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)')?.matches && 'dark'))
+</script>
+<div class="body">
+<div class="nav-container" data-component="reactor-netty" data-version="1.2.0">
+  <aside class="nav">
+    <div class="panels">
+      <div class="nav-panel-menu is-active" data-panel="menu">
+        <nav class="nav-menu">
+<div class="context">
+  <span class="title">Reactor Netty Reference Guide</span>
+  <span class="version">1.2.0-SNAPSHOT</span>
+  <button class="browse-version" id="browse-version">
+    <svg
+      height="24px"
+      id="Layer_1"
+      style="enable-background:new 0 0 512 512;"
+      version="1.1"
+      viewBox="0 0 512 512"
+      width="24px"
+      xml:space="preserve"
+    ><g><path
+          d="M256,224c-17.7,0-32,14.3-32,32s14.3,32,32,32c17.7,0,32-14.3,32-32S273.7,224,256,224L256,224z"
+        ></path><path
+          d="M128.4,224c-17.7,0-32,14.3-32,32s14.3,32,32,32c17.7,0,32-14.3,32-32S146,224,128.4,224L128.4,224z"
+        ></path><path
+          d="M384,224c-17.7,0-32,14.3-32,32s14.3,32,32,32s32-14.3,32-32S401.7,224,384,224L384,224z"
+        ></path></g></svg>
+  </button>
+</div><div class="search">
+  <button class="DocSearch-Button search-button">
+    <svg enable-background="new 0 0 32 32" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <path d="M27.414,24.586l-5.077-5.077C23.386,17.928,24,16.035,24,14c0-5.514-4.486-10-10-10S4,8.486,4,14  s4.486,10,10,10c2.035,0,3.928-0.614,5.509-1.663l5.077,5.077c0.78,0.781,2.048,0.781,2.828,0  C28.195,26.633,28.195,25.367,27.414,24.586z M7,14c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S7,17.86,7,14z" id="XMLID_223_"/>
+    </svg>
+    <span>Search</span>
+    <span class="search-key"></span>
+  </button>
+</div>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">About the Documentation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="getting-started.html">Getting Started</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="tcp-server.html">TCP Server</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="tcp-client.html">TCP Client</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="http-server.html">HTTP Server</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="http-client.html">HTTP Client</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="udp-server.html">UDP Server</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="udp-client.html">UDP Client</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="appendices.html">Appendices</a>
+  </li>
+</ul>
+  </li>
+</ul>
+          <div class="toggle-sm">
+            <button id="nav-toggle-2" class="nav-toggle"></button>
+          </div>
+        </nav>
+      </div>
+      <div class="nav-collapse">
+        <button id="nav-collapse-toggle"><span></span></button>        
+      </div>
+    </div>
+    <div class="nav-resize"></div>
+  </aside>
+</div>
+<script>
+!function (sidebar) {
+  if (sidebar) {
+    document.body.classList.add('nav-sm')
+  }
+}(localStorage && localStorage.getItem('sidebar') === 'close')
+</script><main class="article">
+<div class="toolbar" role="navigation">
+  <button id="nav-toggle-1" class="nav-toggle"></button>
+<div class="search">
+  <button class="DocSearch-Button search-button">
+    <svg enable-background="new 0 0 32 32" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <path d="M27.414,24.586l-5.077-5.077C23.386,17.928,24,16.035,24,14c0-5.514-4.486-10-10-10S4,8.486,4,14  s4.486,10,10,10c2.035,0,3.928-0.614,5.509-1.663l5.077,5.077c0.78,0.781,2.048,0.781,2.828,0  C28.195,26.633,28.195,25.367,27.414,24.586z M7,14c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7S7,17.86,7,14z" id="XMLID_223_"/>
+    </svg>
+    <span>Search</span>
+    <span class="search-key"></span>
+  </button>
+</div>
+</div>
+  <div class="content">
+<aside class="sidebar">
+  <div class="content">
+    <div
+      class="toc"
+      data-title="Frequently Asked Questions"
+      data-levels="2"
+    >
+      <div class="toc-menu"></div>
+    </div>
+    <div class="sidebar-links">
+        <a href="https://github.com/pderop/test.reactor-netty/edit/main/docs/modules/ROOT/pages/faq.adoc">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          ><path
+              d="m16 2.012 3 3L16.713 7.3l-3-3zM4 14v3h3l8.299-8.287-3-3zm0 6h16v2H4z"
+            ></path></svg>
+          Edit this Page
+        </a>
+              <a href="https://github.com/pderop/test.reactor-netty" title="Github">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="512px"
+            id="Layer_1"
+            version="1.1"
+            viewBox="0 0 512 512"
+            width="512px"
+          ><style type="text/css"><![CDATA[
+              .st0{fill-rule:evenodd;clip-rule:evenodd;} ]]></style><g><path
+                class="st0"
+                d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"
+              ></path></g></svg>
+          GitHub Project
+        </a>
+        <a href="https://stackoverflow.com/tags/reactor-netty">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path
+              d="M290.7 311L95 269.7 86.8 309l195.7 41zm51-87L188.2 95.7l-25.5 30.8 153.5 128.3zm-31.2 39.7L129.2 179l-16.7 36.5L293.7 300zM262 32l-32 24 119.3 160.3 32-24zm20.5 328h-200v39.7h200zm39.7 80H42.7V320h-40v160h359.5V320h-40z"
+            ></path></svg>
+          Stack Overflow
+        </a>
+    </div>
+  </div>
+</aside><article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Reactor Netty Reference Guide</a></li>
+    <li><a href="faq.html">Frequently Asked Questions</a></li>
+  </ul>
+</nav>
+<h1 id="page-title" class="page">Frequently Asked Questions</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#faq.proxy-connect-method">1. Connection to the proxy cannot be established</a></li>
+<li><a href="#faq.logging-prefix">2. What is it meaning of the information that is prepended to every log record?</a>
+<ul class="sectlevel2">
+<li><a href="#tcp-and-udp">2.1. TCP and UDP</a></li>
+</ul>
+</li>
+<li><a href="#faq.logging-correlation">3. How can I extract all log records for a particular HTTP request?</a></li>
+<li><a href="#faq.memory-leaks">4. How can I debug a memory leak?</a></li>
+<li><a href="#faq.connection-closed">5. How can I debug "Connection prematurely closed BEFORE response"?</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="faq.proxy-connect-method"><a class="anchor" href="#faq.proxy-connect-method"></a>1. Connection to the proxy cannot be established</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Netty&#8217;s HTTP proxy support always uses <code>CONNECT</code> method in order to establish a tunnel to the specified proxy regardless of the scheme that is used <code>http</code> or <code>https</code>.
+(More information: <a href="https://github.com/netty/netty/issues/10475">Netty enforce HTTP proxy to support HTTP CONNECT method</a>).
+Some proxies might not support <code>CONNECT</code> method when the scheme is <code>http</code> or might need to be configured in order to support this way of communication.
+Sometimes this might be the reason for not being able to connect to the proxy. Consider checking the proxy documentation
+whether it supports or needs an additional configuration in order to support <code>CONNECT</code> method.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="faq.logging-prefix"><a class="anchor" href="#faq.logging-prefix"></a>2. What is it meaning of the information that is prepended to every log record?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Reactor Netty adds information for the connection at the beginning of every log record (when this is possible).
+There is a slight difference in the details for the connection when you use <code>TCP</code>, <code>UDP</code>, <code>HTTP/1.1</code> or <code>HTTP/2</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="tcp-and-udp"><a class="anchor" href="#tcp-and-udp"></a>2.1. TCP and UDP</h3>
+<div class="paragraph">
+<p>In case of <code>TCP</code> and <code>UDP</code>, the following is added at the beginning of every log record: the id of the underlying connection, local and remote addresses.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Examples
+[a1566d55, L:/[0:0:0:0:0:0:0:1]:53446 - R:/[0:0:0:0:0:0:0:1]:53444]
+[a1566d55, L:/[0:0:0:0:0:0:0:1]:53446 ! R:/[0:0:0:0:0:0:0:1]:53444]
+
+Format
+[&lt;CONNECTION_ID&gt;, L:&lt;LOCAL_ADDRESS&gt; &lt;CONNECTION_OPENED_CLOSED&gt; R:&lt;REMOTE_ADDRESS&gt;]
+&lt;CONNECTION_ID&gt;: a1566d55
+&lt;LOCAL_ADDRESS&gt;: [0:0:0:0:0:0:0:1]:53446
+&lt;CONNECTION_OPENED_CLOSED&gt;: - (connection opened)
+                            ! (connection closed)
+&lt;REMOTE_ADDRESS&gt;: [0:0:0:0:0:0:0:1]:53444</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>[[http/1-1]]
+=== HTTP/1.1
+In case of <code>HTTP/1.1</code>, the following is added at the beginning of every log record: the id of the underlying connection,
+the serial number of the request received on that connection, local and remote addresses.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Examples
+[a1566d55-5, L:/[0:0:0:0:0:0:0:1]:53446 - R:/[0:0:0:0:0:0:0:1]:53444]
+[a1566d55-5, L:/[0:0:0:0:0:0:0:1]:53446 ! R:/[0:0:0:0:0:0:0:1]:53444]
+
+Format
+[&lt;CONNECTION_ID&gt;-&lt;REQUEST_NUMBER&gt;, L:&lt;LOCAL_ADDRESS&gt; &lt;CONNECTION_OPENED_CLOSED&gt; R:&lt;REMOTE_ADDRESS&gt;]
+&lt;CONNECTION_ID&gt;: a1566d55
+&lt;REQUEST_NUMBER&gt;: 5
+&lt;LOCAL_ADDRESS&gt;: [0:0:0:0:0:0:0:1]:53446
+&lt;CONNECTION_OPENED_CLOSED&gt;: - (connection opened)
+                            ! (connection closed)
+&lt;REMOTE_ADDRESS&gt;: [0:0:0:0:0:0:0:1]:53444</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>[[http/2]]
+=== HTTP/2
+In case of <code>HTTP/2</code>, the following is added at the beginning of every log record: the id of the underlying connection,
+local and remote addresses, the id of the stream received on that connection.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Examples
+[a1566d55, L:/[0:0:0:0:0:0:0:1]:53446 - R:/[0:0:0:0:0:0:0:1]:53444](H2 - 5)
+[a1566d55, L:/[0:0:0:0:0:0:0:1]:53446 ! R:/[0:0:0:0:0:0:0:1]:53444](H2 - 5)
+
+Format
+[&lt;CONNECTION_ID&gt;, L:&lt;LOCAL_ADDRESS&gt; &lt;CONNECTION_OPENED_CLOSED&gt; R:&lt;REMOTE_ADDRESS&gt;]&lt;STREAM_ID&gt;
+&lt;CONNECTION_ID&gt;: a1566d55
+&lt;LOCAL_ADDRESS&gt;: [0:0:0:0:0:0:0:1]:53446
+&lt;CONNECTION_OPENED_CLOSED&gt;: - (connection opened)
+                            ! (connection closed)
+&lt;REMOTE_ADDRESS&gt;: [0:0:0:0:0:0:0:1]:53444
+&lt;STREAM_ID&gt;: (H2 - 5)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="faq.logging-correlation"><a class="anchor" href="#faq.logging-correlation"></a>3. How can I extract all log records for a particular HTTP request?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Reactor Netty adds information for the connection at the beginning of every log record (when this is possible).
+Use the id of the connection in order to extract all log records for a particular HTTP request.
+For more information see <a href="#faq.logging-prefix">What is it meaning of the information that is prepended to every log record?</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="faq.memory-leaks"><a class="anchor" href="#faq.memory-leaks"></a>4. How can I debug a memory leak?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, Reactor Netty uses direct memory as this is more performant
+when there are many native I/O operations (working with sockets), as this can remove the copying operations.
+As allocation and deallocation are expensive operations, Reactor Netty also uses pooled buffers by default.
+For more information, see <a href="https://github.com/netty/netty/wiki/Reference-counted-objects">Reference Counted Objects</a>.</p>
+</div>
+<div class="paragraph">
+<p>To be able to debug memory issues with the direct memory and the pooled buffers, Netty provides a special memory leak detection mechanism.
+Follow the instructions for <a href="https://github.com/netty/netty/wiki/Reference-counted-objects#troubleshooting-buffer-leaks">Troubleshooting Buffer Leaks</a>
+to enable this mechanism. In addition to the instructions provided by Netty, Reactor Netty provides a special
+logger (<code>_reactor.netty.channel.LeakDetection</code>) that helps to identify where the memory leak might be located inside Reactor Netty
+or whether Reactor Netty already forwarded the ownership of the buffers to the application/framework.
+By default, this logger is disabled. To enable it, increase the log level to <code>DEBUG</code>.</p>
+</div>
+<div class="paragraph">
+<p>Another way to detect memory leaks is to monitor <code>reactor.netty.bytebuf.allocator.active.heap.memory</code> and <code>reactor.netty.bytebuf.allocator.active.direct.memory</code> meters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>reactor.netty.bytebuf.allocator.active.heap.memory</code> provides the actual bytes consumed by in-use buffers allocated from heap buffer pools</p>
+</li>
+<li>
+<p>The <code>reactor.netty.bytebuf.allocator.active.direct.memory</code> provides the actual bytes consumed by in-use buffers allocated from direct buffer pools</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If the above meters are constantly growing, then it&#8217;s likely that there is a buffer memory leak.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Consider reducing the used memory when debugging memory leak issues (e.g <code>-XX:MaxDirectMemorySize</code>, <code>-Xms</code>, <code>-Xmx</code>).
+The less memory the application has, the sooner the memory leak will happen.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="faq.connection-closed"><a class="anchor" href="#faq.connection-closed"></a>5. How can I debug "Connection prematurely closed BEFORE response"?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, Reactor Netty clients use connection pooling. When a connection is acquired from the connection pool, it is checked to see whether it is still open.
+However, the connection can be closed at any time after the acquisition. There are many reasons that can cause a connection to be closed.
+In most cases, the client might not send directly to the server. Instead, there might be other network components (proxies, load balancers, and so on) between them.</p>
+</div>
+<div class="paragraph">
+<p>If, on the client side, you observe <code>Connection prematurely closed BEFORE response</code>, perform the following checks to identify the reason for the connection being closed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtain a <a href="https://en.wikipedia.org/wiki/Tcpdump">TCP dump</a> and check which peer sends a FIN/RST signal.</p>
+</li>
+<li>
+<p>Check your network connection.</p>
+</li>
+<li>
+<p>Check your Firewall and VPN.</p>
+</li>
+<li>
+<p>Check for any proxies and load balancers.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Do they have some kind of idle timeout configuration (the connection is closed when there is no incoming data for a certain period of time)?</p>
+</li>
+<li>
+<p>Do they silently drop the idle connections without sending any signal?
+In order to verify whether this might be the issue, you can enable the TCP keep-alive as described in the section <a href="http-server.html#http-server-connection-timeout" class="xref page">Connection Timeout</a>.
+Issues related to TCP keep-alive configuration on various load balancers were reported in the past.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/reactor/reactor-netty/issues/764#issuecomment-1011373248" class="bare">github.com/reactor/reactor-netty/issues/764#issuecomment-1011373248</a></p>
+</li>
+<li>
+<p><a href="https://github.com/reactor/reactor-netty/issues/1510" class="bare">github.com/reactor/reactor-netty/issues/1510</a></p>
+</li>
+<li>
+<p><a href="https://github.com/reactor/reactor-netty/issues/1843" class="bare">github.com/reactor/reactor-netty/issues/1843</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Check the target server. Are there configurations related to any of the following?</p>
+<div class="ulist">
+<ul>
+<li>
+<p>idle timeout (the connection is closed when there is no incoming data for a certain period of time)</p>
+</li>
+<li>
+<p>limit for buffering data in memory</p>
+</li>
+<li>
+<p>multipart exceeds the max file size limit</p>
+</li>
+<li>
+<p>bad request</p>
+</li>
+<li>
+<p>max keep alive requests (the connection is closed when the requests reach the configured maximum number)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Consider checking <a href="http-server.html#http-server-timeout-configuration" class="xref page">Timeout Configuration</a>. The section describes various timeout configuration options that are available for Reactor Netty clients.
+Configuring a proper timeout may improve or solve issues in the communication process.</p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+<div class="modal micromodal-slide" id="modal-versions" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true">
+            <main class="modal__content" id="modal-versions-content">
+              <button data-micromodal-close class="modal-versions-close">
+                <svg width="28px" height="28px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><style>.cls-1h{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}</style></defs><title/><g id="cross"><line class="cls-1h" x1="7" x2="25" y1="7" y2="25"/><line class="cls-1h" x1="7" x2="25" y1="25" y2="7"/></g></svg>
+              </button>
+              <div class="colset">
+                <div class="col-left">
+                  <ul class="nav-versions">
+                    <li class="component is-current">
+                      <a class="title" href="index.html">Reactor Netty Reference Guide</a>
+                      <ul class="versions">
+                        <li class="version is-current is-latest">
+                          <a href="index.html">
+                            1.2.0-SNAPSHOT<span class="current">current</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-right">
+                  <ul class="projects">
+  <li>
+    Related Spring Documentation
+    <ul class="projects-list">
+        <li>
+<a href="https://docs.spring.io/spring-framework/reference/">
+  Spring Framework
+</a>
+</li>
+        <li>
+<a class="anchor"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+  Spring Cloud
+<ul>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-build/reference/">
+  Spring Cloud Build
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-bus/reference/">
+  Spring Cloud Bus
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-circuitbreaker/reference/">
+  Spring Cloud Circuit Breaker
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-commons/reference/">
+  Spring Cloud Commons
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-config/reference/">
+  Spring Cloud Config
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-consul/reference/">
+  Spring Cloud Consul
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-contract/reference/">
+  Spring Cloud Contract
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-function/reference/">
+  Spring Cloud Function
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-gateway/reference/">
+  Spring Cloud Gateway
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-kubernetes/reference/">
+  Spring Cloud Kubernetes
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-netflix/reference/">
+  Spring Cloud Netflix
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-openfeign/reference/">
+  Spring Cloud OpenFeign
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-stream/reference/">
+  Spring Cloud Stream
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-task/reference/">
+  Spring Cloud Task
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-vault/reference/">
+  Spring Cloud Vault
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-cloud-zookeeper/reference/">
+  Spring Cloud Zookeeper
+</a>
+</li>
+</ul>
+</li>
+        <li>
+<a class="anchor"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+  Spring Data
+<ul>
+    <li>
+<a href="https://docs.spring.io/spring-data/cassandra/reference/">
+  Spring Data Cassandra
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/commons/reference/">
+  Spring Data Commons
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/couchbase/reference/">
+  Spring Data Couchbase
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/elasticsearch/reference/">
+  Spring Data Elasticsearch
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/jpa/reference/">
+  Spring Data JPA
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/keyvalue/reference/">
+  Spring Data KeyValue
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/ldap/reference/">
+  Spring Data LDAP
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/mongodb/reference/">
+  Spring Data MongoDB
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/neo4j/reference/">
+  Spring Data Neo4j
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/redis/reference/">
+  Spring Data Redis
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/relational/reference/">
+  Spring Data JDBC &amp; R2DBC
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-data/rest/reference/">
+  Spring Data REST
+</a>
+</li>
+</ul>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-integration/reference/">
+  Spring Integration
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-batch/reference/">
+  Spring Batch
+</a>
+</li>
+        <li>
+<a class="anchor"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+<a href="https://docs.spring.io/spring-security/reference/">
+  Spring Security
+</a>
+<ul>
+    <li>
+<a href="https://docs.spring.io/spring-authorization-server/reference/">
+  Spring Authorization Server
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-ldap/reference/">
+  Spring LDAP
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-security-kerberos/reference/">
+  Spring Security Kerberos
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-session/reference/">
+  Spring Session
+</a>
+</li>
+    <li>
+<a href="https://docs.spring.io/spring-vault/reference/">
+  Spring Vault
+</a>
+</li>
+</ul>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-ai/reference/">
+  Spring AI
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-amqp/reference/">
+  Spring AMQP
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-cli/reference/">
+  Spring CLI
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-graphql/reference/">
+  Spring GraphQL
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-kafka/reference/">
+  Spring for Apache Kafka
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-modulith/reference/">
+  Spring Modulith
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-pulsar/reference/">
+  Spring for Apache Pulsar
+</a>
+</li>
+        <li>
+<a href="https://docs.spring.io/spring-shell/reference/">
+  Spring Shell
+</a>
+</li>
+    </ul>
+  </li
+  <li><a href="spring-projects.html">All Docs...</a></li>
+</ul>
+                </div>
+              </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+</div>
+<footer class="footer flex">
+    <div id="spring-links flex">
+        <img id="reactorlogo-footer" src="./_/img/reactor-logo.svg" alt="Reactor">
+        <img id="reactorlogo-footer-dark" src="./_/img/reactor-logo-dark.svg" alt="Reactor">
+        <p class="smallest antialiased">Copyright © 2005 - <script>var d = new Date();
+        document.write(d.getFullYear());</script> Broadcom. All Rights Reserved. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.<br /><a href="https://www.vmware.com/help/legal.html">Terms of Use</a> • <a href="https://www.vmware.com/help/privacy.html" rel="noopener noreferrer">Privacy</a> • <a href="https://spring.io/trademarks">Trademark Guidelines</a> <span id="thank-you-mobile">• <a href="https://spring.io/thank-you">Thank you</a></span> • <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> • <a class="ot-sdk-show-settings">Cookie Settings</a> <span id="teconsent"></span></p>
+        <p class="smallest antialiased has-gray-text">Apache®, Apache Tomcat®, Apache Kafka®, Apache Cassandra&trade;, and Apache Geode&trade; are trademarks or registered trademarks of the Apache Software Foundation in the United States and/or other countries. Java&trade;, Java&trade; SE, Java&trade; EE, and OpenJDK&trade; are trademarks of Oracle and/or its affiliates. Kubernetes® is a registered trademark of the Linux Foundation in the United States and other countries. Linux® is the registered trademark of Linus Torvalds in the United States and other countries. Windows® and Microsoft® Azure are registered trademarks of Microsoft Corporation. “AWS” and “Amazon Web Services” are trademarks or registered trademarks of Amazon.com Inc. or its affiliates. All other trademarks and copyrights are property of their respective owners and are only mentioned for informative purposes. Other names may be trademarks of their respective owners.</p>
+    </div>
+    <div id="social-icons" class="flex jc-between">
+        <a href="https://www.youtube.com/user/SpringSourceDev" title="Youtube"><svg id="youtube-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle class="cls-1" cx="20" cy="20" r="20"/><path class="cls-2" d="M30.91,14.53a2.89,2.89,0,0,0-2-2C27.12,12,20,12,20,12s-7.12,0-8.9.47a2.9,2.9,0,0,0-2,2A30.56,30.56,0,0,0,8.63,20a30.44,30.44,0,0,0,.46,5.47,2.89,2.89,0,0,0,2,2C12.9,28,20,28,20,28s7.12,0,8.9-.47a2.87,2.87,0,0,0,2-2A30.56,30.56,0,0,0,31.37,20,28.88,28.88,0,0,0,30.91,14.53ZM17.73,23.41V16.59L23.65,20Z"/></svg></a>
+        <a href="https://github.com/spring-projects" title="Github"><svg id="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.93 75.93"><path class="cls-1" d="M38,0a38,38,0,1,0,38,38A38,38,0,0,0,38,0Z"/></g><path class="cls-2" d="M38,15.59A22.95,22.95,0,0,0,30.71,60.3c1.15.21,1.57-.5,1.57-1.11s0-2,0-3.9c-6.38,1.39-7.73-3.07-7.73-3.07A6.09,6.09,0,0,0,22,48.86c-2.09-1.42.15-1.39.15-1.39a4.81,4.81,0,0,1,3.52,2.36c2,3.5,5.37,2.49,6.67,1.91a4.87,4.87,0,0,1,1.46-3.07c-5.09-.58-10.45-2.55-10.45-11.34a8.84,8.84,0,0,1,2.36-6.15,8.29,8.29,0,0,1,.23-6.07s1.92-.62,6.3,2.35a21.82,21.82,0,0,1,11.49,0c4.38-3,6.3-2.35,6.3-2.35a8.29,8.29,0,0,1,.23,6.07,8.84,8.84,0,0,1,2.36,6.15c0,8.81-5.37,10.75-10.48,11.32a5.46,5.46,0,0,1,1.56,4.25c0,3.07,0,5.54,0,6.29s.42,1.33,1.58,1.1A22.94,22.94,0,0,0,38,15.59Z"/></svg></a>
+        <a href="https://twitter.com/springcentral" title="Twitter"><svg id="twitter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.93 75.93"><circle class="cls-1" cx="37.97" cy="37.97" r="37.97"/><path id="Twitter-2" data-name="Twitter" class="cls-2" d="M55.2,22.73a15.43,15.43,0,0,1-4.88,1.91,7.56,7.56,0,0,0-5.61-2.49A7.78,7.78,0,0,0,37,30a7.56,7.56,0,0,0,.2,1.79,21.63,21.63,0,0,1-15.84-8.23,8,8,0,0,0,2.37,10.52,7.66,7.66,0,0,1-3.48-1v.09A7.84,7.84,0,0,0,26.45,41a7.54,7.54,0,0,1-2,.28A7.64,7.64,0,0,1,23,41.09a7.71,7.71,0,0,0,7.18,5.47,15.21,15.21,0,0,1-9.55,3.37,15.78,15.78,0,0,1-1.83-.11,21.41,21.41,0,0,0,11.78,3.54c14.13,0,21.86-12,21.86-22.42,0-.34,0-.68,0-1a15.67,15.67,0,0,0,3.83-4.08,14.9,14.9,0,0,1-4.41,1.24A7.8,7.8,0,0,0,55.2,22.73Z"/></svg></a>
+    </div>
+</footer>
+<script src="./_/js/vendor/import.js"></script>
+<script src="./_/js/site.js"></script>
+<script async src="./_/js/vendor/highlight.js"></script>
+<script async src="./_/js/vendor/asciidoctor-tabs.js" data-sync-storage-key="docs:preferred-tab"></script>
+
+<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <main class="modal__content" id="modal-1-content">
+                <div id="searchbox"></div>
+                <div id="counter"></div>
+                <div class="search-link-box">
+                    <a class="search-link" href="search.html">Search in all Spring Docs</a>
+                </div>
+                <div class="search-by">
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.algolia.com/" aria-label="Search by Algolia">
+                        <img class="light" width="140" src="./_/img/algolia-light.svg" />
+                        <img class="dark" width="140" src="./_/img/algolia-dark.svg" />
+                    </a>
+                </div>
+                <div id="hits"></div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.17.0/dist/algoliasearch-lite.umd.js" integrity="sha256-Lf9DrpGmcRip6OQzbcL6lnvNmoZNSKpyQX5pMlwatWE=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.54.1/dist/instantsearch.production.min.js" integrity="sha256-xYsZPDeNjYNTBWLvqD2Lxe98hOxcDgOHyMPfz4tVAbk=" crossorigin="anonymous"></script>
+<script async id="search-script" src="./_/js/vendor/search.js" data-app-id="TGS4XRGX3V" data-api-key="da671ceec1f84f80f280884a6a91bde5" data-index-name="reactor" data-stylesheet="./_/css/vendor/search.css" data-page-version="1.2.0" data-page-component="reactor-netty"></script>
+  </body>
+</html>
