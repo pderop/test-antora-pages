@@ -5,7 +5,7 @@ on:
 #    branches: # For branches, better to list them explicitly than regexp include
 #      - gh-pages
   workflow_run:
-    workflows: [ pages-build-deployment ]
+    workflows: [ pages build and deployment ]
     types:
       - completed
 #  workflow_run:
