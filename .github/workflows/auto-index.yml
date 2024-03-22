@@ -1,9 +1,13 @@
 name: auto-index
 on:
   workflow_dispatch:
-  push:
-    branches: # For branches, better to list them explicitly than regexp include
-      - gh-pages
+#  push:
+#    branches: # For branches, better to list them explicitly than regexp include
+#      - gh-pages
+  workflow_run:
+    workflows: [ pages-build-deployment ]
+    types:
+      - completed
 #  workflow_run:
 #    workflows: ["pages-build-deployment"]
 #    types:
