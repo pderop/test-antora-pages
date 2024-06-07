@@ -1,9 +1,12 @@
 # test-antora-pages
 Antora Test (GH pages)
 
-{% raw %}
-{% assign data = site.data.result %}
-{% for item in data %}
-- **{{ item.name }}**: {{ item.value }} {{ item.unit }}
+{% for member in site.data.result %}
+  <li>
+    <a href="https://github.com/{{ member.github }}">
+      {{ member.name }}
+    </a>
+  </li>
 {% endfor %}
-{% endraw %}
+
+
