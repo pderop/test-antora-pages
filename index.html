@@ -1,7 +1,18 @@
-<html><head><title>Index of "."</title></head><body>
-<h1>Index of ".":</h1>
-<ul>
-<!-- ++ projectreactor auto generated index ++ -->
-<li><a href="_data/">_data</a></li>
-<li><a href="docs/">docs</a></li>
-</ul></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Data Example</title>
+</head>
+<body>
+    <h1>JSON Data Example</h1>
+    <ul>
+        {% for item in site.data.result %}
+            <li>
+                <strong>{{ item.name }}</strong>: {{ item.value }} {{ item.unit }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
